@@ -88,175 +88,169 @@
 
     /* Header */
     .main-header {
-        padding: 0 16px;
-        height: 60px;
+        padding: 0 20px;
+        height: 64px;
+        background: rgba(15, 15, 15, 0.98);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     }
 
     .search-input {
-        height: 40px;
+        height: 44px;
         font-size: 16px;
-        /* Prevent iOS zoom */
+        border-radius: 22px;
+        background: rgba(255, 255, 255, 0.08);
+        padding-left: 48px;
+    }
+
+    .search-bar svg {
+        left: 16px;
     }
 
     /* Mini Player - Floating above nav */
     .mini-player {
         position: fixed;
-        bottom: calc(64px + env(safe-area-inset-bottom));
-        /* Above bottom nav */
-        left: 8px;
-        /* Floating look */
-        right: 8px;
-        width: auto;
-        height: 60px;
-        border-radius: 12px;
-        background: rgba(29, 29, 29, 0.95);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        z-index: 900;
-        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
-    }
-
-    .mini-player-progress {
-        position: absolute;
-        bottom: 0;
+        bottom: calc(70px + env(safe-area-inset-bottom));
         left: 12px;
         right: 12px;
         width: auto;
+        height: 64px;
+        border-radius: 16px;
+        background: #252525;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        z-index: 900;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    .mini-player-progress {
+        bottom: 0px;
+        left: 16px;
+        right: 16px;
         border-radius: 2px;
     }
 
-    /* Fix Mini Player Layout */
-    .mini-player-content {
-        display: flex;
-        align-items: center;
-        padding: 0 12px;
-        width: 100%;
+    .mini-thumbnail {
+        width: 48px;
+        height: 48px;
+        border-radius: 8px;
     }
 
-    .mini-now-playing {
-        flex: 1;
-        min-width: 0;
-        margin-right: 12px;
-        max-width: none;
-        /* Override desktop max-width */
-    }
-
-    .mini-controls {
-        flex: 0 0 auto;
-        gap: 0;
-        /* Reset desktop gap */
-        justify-content: flex-end;
-    }
-
-    /* Hide unused controls on mobile */
-    .mini-controls #prevBtn,
-    .mini-controls #nextBtn,
-    .mini-controls .volume-control,
-    .mini-controls .volume-container,
-    .mini-controls #volumeSlider {
-        display: none !important;
-    }
-
-    .mini-info {
-        margin-left: 12px;
-        margin-right: 8px;
-    }
-
-    .mini-like-btn {
-        display: none;
-        /* Hide heart on mini player mobile to save space */
-    }
-
-    /* Play button styling */
-    .mini-btn.play-btn {
-        width: 42px;
-        height: 42px;
-        background: white;
-        color: black;
-        border-radius: 50%;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-    }
-
-    .mini-btn.play-btn svg {
-        width: 24px;
-        height: 24px;
-    }
-
-    /* Grid Adjustments */
+    /* Grid Adjustments - Single Column Feed */
     .video-grid {
-        grid-template-columns: repeat(2, 1fr);
-        /* 2 columns */
-        gap: 12px;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding-bottom: 24px;
     }
 
     .video-card {
         background: transparent;
         border: none;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 8px;
     }
 
     .video-thumbnail {
-        border-radius: 12px;
+        border-radius: 16px;
+        width: 100%;
+        aspect-ratio: 16/9;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-thumbnail img {
+        object-fit: cover;
     }
 
     .video-info {
-        padding: 8px 0;
+        padding: 0 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .video-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        line-height: 1.4;
+        max-height: none;
+        -webkit-line-clamp: 2;
+    }
+
+    .video-meta {
+        font-size: 0.95rem;
+        color: var(--text-secondary);
+        opacity: 0.8;
     }
 
     .video-play-overlay {
         display: none !important;
-        /* No hover effects on mobile */
     }
 
-    /* Featured Section */
+    /* Featured Section - Immersive */
+    .featured-section {
+        margin: -16px -16px 32px -16px;
+        width: calc(100% + 32px);
+    }
+
     .featured-card {
         height: auto;
-        aspect-ratio: 16/9;
+        aspect-ratio: auto;
+        /* Let content dictate or use 16/9 image */
         display: flex;
         flex-direction: column;
         background: transparent;
+        border-radius: 0;
     }
 
     .featured-thumbnail {
         position: relative;
-        height: 0;
+        width: 100%;
         padding-bottom: 56.25%;
         /* 16:9 */
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        border-radius: 0;
+        box-shadow: none;
     }
 
     .featured-overlay {
         position: static;
-        background: none;
-        padding: 12px 0;
+        background: transparent;
+        padding: 20px;
     }
 
     .featured-title {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+        font-weight: 700;
+    }
+
+    .featured-subtitle {
+        font-size: 1rem;
+        opacity: 0.9;
     }
 
     .featured-badge {
         display: none;
-        /* Clean up */
     }
 
     .play-featured-btn {
         display: none;
-        /* Just tap image */
     }
 
     /* Full Player Overlay */
     .full-player-overlay {
         z-index: 2000;
+        background: #000;
     }
 
     .full-player-content {
         padding: 24px;
-        padding-top: env(safe-area-inset-top);
+        padding-top: calc(40px + env(safe-area-inset-top));
     }
 
     .video-container {
-        margin-top: 40px;
+        margin-top: 32px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     }
 }
