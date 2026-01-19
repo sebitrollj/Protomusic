@@ -73,6 +73,46 @@ class ProtoMusicAPI {
         return { success: false, videos: [] };
     }
 
+    async getSeries() {
+        // Hardcoded seasons for PWA since we can't scrape
+        const seasons = [
+            { series_id: '10', season_name: 'Saison 10', episode_count: 0 },
+            { series_id: '9', season_name: 'Saison 9', episode_count: 1 },
+            { series_id: '8', season_name: 'Saison 8', episode_count: 15 },
+            { series_id: '7', season_name: 'Saison 7', episode_count: 23 },
+            { series_id: '6', season_name: 'Saison 6', episode_count: 15 },
+            { series_id: '5', season_name: 'Saison 5', episode_count: 16 },
+            { series_id: '4', season_name: 'Saison 4', episode_count: 15 },
+            { series_id: '3', season_name: 'Saison 3', episode_count: 14 },
+            { series_id: '2', season_name: 'Saison 2', episode_count: 15 },
+            { series_id: '1', season_name: 'Saison 1', episode_count: 13 },
+            { series_id: 'kalandar', season_name: 'Kalandar', episode_count: 25 },
+            { series_id: 'autre', season_name: 'Autre', episode_count: 34 }
+        ];
+        return { success: true, series: seasons };
+    }
+
+    async getEpisodes(seasonId) {
+        // Try to search for the season
+        const query = seasonId === 'kalandar' ? 'Kalandar' : `Saison ${seasonId}`;
+        return this.search(query).then(result => {
+            if (result.success && result.videos) {
+                return {
+                    success: true,
+                    episodes: result.videos.map((v, i) => ({
+                        video_id: v.video_id,
+                        episode_number: i + 1,
+                        title: v.title,
+                        thumbnail: this.getThumbnailUrl(v.video_id),
+                        owner_name: v.owner_name,
+                        duration: v.duration
+                    }))
+                };
+            }
+            return { success: true, episodes: [] };
+        });
+    }
+
     async trackView(videoId) {
         return this.request('/media/trackView.php');
     }
