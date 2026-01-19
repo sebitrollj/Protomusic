@@ -697,7 +697,8 @@ class ProtoMusicApp {
         const duration = video.duration || '0:00';
         const views = video.views ? `${video.views} vues` : '';
 
-        const thumbnailUrl = video.thumbnail || api.getThumbnailUrl(video.video_id);
+        // Always use proxy for thumbnails (ignore API thumbnails which are relative URLs)
+        const thumbnailUrl = api.getThumbnailUrl(video.video_id);
 
         card.innerHTML = `
             <div class="video-thumbnail">
