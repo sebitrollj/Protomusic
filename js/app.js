@@ -276,6 +276,10 @@ class ProtoMusicApp {
         if (thumbnail) {
             thumbnail.style.backgroundImage = `url(${thumbnailUrl})`;
             thumbnail.classList.remove('skeleton');
+            // Setup retry for background image
+            if (window.imageRetry) {
+                imageRetry.setupBackgroundRetry(thumbnail, thumbnailUrl);
+            }
         }
         if (title) {
             title.textContent = video.title;
@@ -831,6 +835,12 @@ class ProtoMusicApp {
         card.addEventListener('contextmenu', (e) => {
             this.showContextMenu(e, video);
         });
+
+        // Setup image retry for thumbnail
+        const img = card.querySelector('.video-thumbnail img');
+        if (img && window.imageRetry) {
+            imageRetry.setupRetry(img, thumbnailUrl);
+        }
 
         return card;
     }
