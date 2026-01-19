@@ -133,8 +133,7 @@ class ProtoMusicAPI {
     }
 
     getThumbnailUrl(videoId) {
-        // Use the same path format as the API returns
-        return `${this.baseUrl}/assets/media/ugc/${videoId}/thumbnail.png`;
+        return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
     }
 
     getStreamUrl(videoId) {
