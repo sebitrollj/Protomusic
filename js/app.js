@@ -270,7 +270,8 @@ class ProtoMusicApp {
         const subtitle = featuredCard?.querySelector('.featured-subtitle');
         const playBtn = document.getElementById('playFeaturedBtn');
 
-        const thumbnailUrl = video.thumbnail || api.getThumbnailUrl(video.video_id);
+        // Always use proxy for thumbnails
+        const thumbnailUrl = api.getThumbnailUrl(video.video_id);
 
         if (thumbnail) {
             thumbnail.style.backgroundImage = `url(${thumbnailUrl})`;

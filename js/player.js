@@ -394,7 +394,8 @@ class ProtoMusicPlayer {
         if (!this.currentVideo) return;
 
         const { title, owner_name, thumbnail, video_id } = this.currentVideo;
-        const thumbnailUrl = thumbnail || api.getThumbnailUrl(video_id);
+        // Always use proxy for thumbnails
+        const thumbnailUrl = api.getThumbnailUrl(video_id);
 
         // Mini player
         if (this.miniThumbnail) this.miniThumbnail.src = thumbnailUrl;
