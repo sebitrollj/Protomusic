@@ -149,6 +149,15 @@
         justify-content: flex-end;
     }
 
+    /* Hide unused controls on mobile */
+    .mini-controls #prevBtn,
+    .mini-controls #nextBtn,
+    .mini-controls .volume-control,
+    .mini-controls .volume-container,
+    .mini-controls #volumeSlider {
+        display: none !important;
+    }
+
     .mini-info {
         margin-left: 12px;
         margin-right: 8px;

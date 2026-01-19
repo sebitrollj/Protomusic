@@ -154,6 +154,16 @@ class ProtoMusicPlayer {
     }
 
     initEvents() {
+        // Expand mini player on click (Mobile behavior)
+        const miniPlayer = document.getElementById('miniPlayer');
+        if (miniPlayer) {
+            miniPlayer.addEventListener('click', (e) => {
+                // Ignore if clicked on a button
+                if (e.target.closest('button') || e.target.closest('input')) return;
+                this.showFullPlayer();
+            });
+        }
+
         // Video events
         this.video.addEventListener('timeupdate', () => this.updateProgress());
         this.video.addEventListener('loadedmetadata', () => this.onMetadataLoaded());
