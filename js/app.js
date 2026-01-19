@@ -28,20 +28,22 @@ class ProtoMusicApp {
     }
 
     initNavigation() {
-        const navItems = document.querySelectorAll('.nav-item');
+        const navItems = document.querySelectorAll('.nav-item, .bottom-nav-item');
 
         navItems.forEach(item => {
             item.addEventListener('click', (e) => {
                 e.preventDefault();
-                const page = item.dataset.page;
+                // Handle click on icon or text
+                const target = item.closest('[data-page]');
+                const page = target.dataset.page;
                 this.navigateTo(page);
             });
         });
     }
 
     navigateTo(page) {
-        // Update nav active state
-        document.querySelectorAll('.nav-item').forEach(item => {
+        // Update nav active state (Sidebar + Bottom Nav)
+        document.querySelectorAll('.nav-item, .bottom-nav-item').forEach(item => {
             item.classList.toggle('active', item.dataset.page === page);
         });
 
