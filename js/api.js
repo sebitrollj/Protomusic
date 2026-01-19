@@ -1,0 +1,95 @@
+/**
+ * ProtoMusic API Service - PWA Version
+ * Direct connection to v2.protogen.fr (no CORS issues on GitHub Pages)
+ */
+
+const API_BASE = 'https://v2.protogen.fr';
+const API_XHR = '/sys/XHR';
+
+class ProtoMusicAPI {
+    constructor() {
+        this.baseUrl = API_BASE;
+    }
+
+    async request(endpoint, options = {}) {
+        try {
+            const url = endpoint.startsWith('http') ? endpoint : `${API_XHR}${endpoint}`;
+            const fullUrl = `${this.baseUrl}${url}`;
+
+            console.log('[API] Request:', fullUrl);
+
+            const response = await fetch(fullUrl, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
+    }
+
+    async getPublicMedia(limit = 20, offset = 0) {
+        return this.request(`/media/getPublicMedia.php?limit=${limit}&offset=${offset}`);
+    }
+
+    async getMostViewedMedia(limit = 8, offset = 0) {
+        return this.request(`/media/getMostViewedMedia.php?limit=${limit}&offset=${offset}`);
+    }
+
+    async getRandomMedia(limit = 20, exclude = []) {
+        try {
+            const result = await this.getPublicMedia(50, 0);
+            if (result.success && result.videos) {
+                let available = result.videos.filter(v => !exclude.includes(v.video_id));
+                for (let i = available.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [available[i], available[j]] = [available[j], available[i]];
+                }
+                return { success: true, videos: available.slice(0, limit) };
+            }
+            return { success: false, videos: [] };
+        } catch (error) {
+            console.error('getRandomMedia failed:', error);
+            return { success: false, videos: [] };
+        }
+    }
+
+    async search(query) {
+        try {
+            const result = await this.request(`/search/autocomplete.php?q=${encodeURIComponent(query)}`);
+            if (result.success && result.videos) return result;
+        } catch (error) {
+            console.warn('Search API failed');
+        }
+        return { success: false, videos: [] };
+    }
+
+    async trackView(videoId) {
+        return this.request('/media/trackView.php');
+    }
+
+    getThumbnailUrl(videoId) {
+        return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
+    }
+
+    getStreamUrl(videoId) {
+        return `${this.baseUrl}/webapi/media/stream/${videoId}/master.m3u8`;
+    }
+
+    getDirectUrl(videoId) {
+        return `${this.baseUrl}/webapi/media/video/${videoId}`;
+    }
+}
+
+// Global API instance
+const api = new ProtoMusicAPI();
+window.api = api;
