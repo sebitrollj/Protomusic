@@ -93,6 +93,21 @@ class ProtoMusicAPI {
     }
 
     async getEpisodes(seasonId) {
+        // Hardcoded episodes for recent content (Saison 10)
+        if (seasonId === '10') {
+            return {
+                success: true,
+                episodes: [
+                    { video_id: 'VcvYQmU8yos', title: 'LA 207 Du Malheur !', duration: '3:21' }
+                ].map((ep, i) => ({
+                    ...ep,
+                    episode_number: i + 1,
+                    thumbnail: this.getThumbnailUrl(ep.video_id),
+                    owner_name: 'Saison 10'
+                }))
+            };
+        }
+
         // Try to search for the season
         const query = seasonId === 'kalandar' ? 'Kalandar' : `Saison ${seasonId}`;
         return this.search(query).then(result => {
