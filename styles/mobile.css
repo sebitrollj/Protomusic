@@ -126,30 +126,52 @@
         border-radius: 2px;
     }
 
+    /* Fix Mini Player Layout */
     .mini-player-content {
+        display: flex;
+        align-items: center;
         padding: 0 12px;
+        width: 100%;
     }
 
-    .mini-thumbnail {
-        width: 40px;
-        height: 40px;
-        border-radius: 6px;
+    .mini-now-playing {
+        flex: 1;
+        min-width: 0;
+        margin-right: 12px;
+        max-width: none;
+        /* Override desktop max-width */
     }
 
     .mini-controls {
-        flex: 0;
-        gap: 8px;
-    }
-
-    /* Hide some controls on mobile mini-player to save space */
-    .mini-controls #prevBtn,
-    .mini-controls #nextBtn,
-    .mini-controls .volume-control {
-        display: none;
+        flex: 0 0 auto;
+        gap: 0;
+        /* Reset desktop gap */
+        justify-content: flex-end;
     }
 
     .mini-info {
         margin-left: 12px;
+        margin-right: 8px;
+    }
+
+    .mini-like-btn {
+        display: none;
+        /* Hide heart on mini player mobile to save space */
+    }
+
+    /* Play button styling */
+    .mini-btn.play-btn {
+        width: 42px;
+        height: 42px;
+        background: white;
+        color: black;
+        border-radius: 50%;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .mini-btn.play-btn svg {
+        width: 24px;
+        height: 24px;
     }
 
     /* Grid Adjustments */
