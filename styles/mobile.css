@@ -58,11 +58,6 @@
     transform: scale(1.1);
 }
 
-/* Hide mobile-only elements on desktop */
-.mobile-logo {
-    display: none;
-}
-
 /* ============================================
    Mobile Media Query
    ============================================ */
@@ -123,43 +118,10 @@
 
     /* ========== Header ========== */
     .main-header {
-        padding: 12px;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        background: var(--bg-primary);
-    }
-
-    /* Mobile Logo - Only visible on mobile */
-    .mobile-logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 4px 0;
-    }
-
-    .mobile-logo .logo-icon {
-        width: 32px;
-        height: 32px;
-        background: linear-gradient(135deg, #FF0000 0%, #FF4444 100%);
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
-    }
-
-    .mobile-logo .logo-icon svg {
-        width: 20px;
-        height: 20px;
-        color: white;
-    }
-
-    .mobile-logo .logo-text {
-        font-size: 20px;
-        font-weight: 700;
-        color: white;
-        letter-spacing: -0.5px;
+        padding: 16px 12px;
+        /* Match page padding */
+        height: auto;
+        min-height: 70px;
     }
 
     .search-container {
@@ -601,18 +563,5 @@
     .main-content {
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
-    }
-}
-
-/* ============================================
-   Desktop: Hide mini-player when not visible
-   ============================================ */
-@media (min-width: 769px) {
-    .mini-player:not(.visible) {
-        display: none !important;
-    }
-
-    .mobile-logo {
-        display: none !important;
     }
 }
