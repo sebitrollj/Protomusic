@@ -75,15 +75,15 @@ class ProtoMusicAPI {
 
     async getSeries() {
         try {
-            const response = await fetch(`${this.baseUrl}/kikiskothek/`);
+            const response = await fetch(`${this.baseUrl}/kikiskothek-api/`); // Updated endpoint
             const data = await response.json();
 
-            if (data && data.seasons && data.seasons.length > 0) {
+            if (data && data.success && data.seasons && data.seasons.length > 0) {
                 return {
                     success: true,
                     series: data.seasons.map(season => ({
-                        series_id: season.id || season.season_id,
-                        season_name: season.name || season.season_name,
+                        series_id: season.series_id,
+                        season_name: season.season_name,
                         episode_count: season.episode_count || 0
                     }))
                 };
@@ -117,18 +117,18 @@ class ProtoMusicAPI {
 
     async getEpisodes(seasonId) {
         try {
-            const response = await fetch(`${this.baseUrl}/kikiskothek/?season=${seasonId}`);
+            const response = await fetch(`${this.baseUrl}/kikiskothek-api/?season=${seasonId}`); // Updated endpoint
             const data = await response.json();
 
-            if (data && data.episodes && data.episodes.length > 0) {
+            if (data && data.success && data.episodes && data.episodes.length > 0) {
                 return {
                     success: true,
                     episodes: data.episodes.map((ep, i) => ({
-                        video_id: ep.video_id || ep.id,
+                        video_id: ep.video_id,
                         episode_number: ep.episode_number || (i + 1),
                         title: ep.title,
-                        thumbnail: ep.thumbnail || this.getThumbnailUrl(ep.video_id || ep.id),
-                        owner_name: ep.owner_name || `Saison ${seasonId}`,
+                        thumbnail: ep.thumbnail || this.getThumbnailUrl(ep.video_id),
+                        owner_name: `Saison ${seasonId}`,
                         duration: ep.duration || '0:00'
                     }))
                 };
