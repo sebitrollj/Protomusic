@@ -701,7 +701,6 @@ body {
     /* Prevent marquee from overflowing */
 }
 
-/* Now Playing */
 .mini-now-playing {
     flex: 1;
     min-width: 0;
@@ -711,6 +710,8 @@ body {
     overflow: hidden;
     position: relative;
     z-index: 1;
+    margin-right: 16px;
+    /* Space between text and play button */
 }
 
 .mini-thumbnail {
@@ -757,11 +758,14 @@ body {
     animation: marquee 15s linear infinite;
 }
 
+/* Show full text by duplicating it */
 .mini-title.scrolling::after {
     content: attr(data-text);
     position: absolute;
     left: 100%;
-    padding-left: 2em;
+    padding-left: 3em;
+    /* Larger gap between loops */
+    white-space: nowrap;
 }
 
 .mini-artist {
