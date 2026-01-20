@@ -697,6 +697,8 @@ body {
     align-items: center;
     padding: 0 16px;
     gap: 24px;
+    overflow: hidden;
+    /* Prevent marquee from overflowing */
 }
 
 /* Now Playing */
