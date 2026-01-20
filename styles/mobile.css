@@ -140,13 +140,10 @@
     .mini-player {
         position: fixed;
         bottom: calc(70px + env(safe-area-inset-bottom));
-        /* Adjusted for new nav height */
         left: 12px;
         right: 12px;
         height: 72px;
-        /* Increased from 60px */
         border-radius: 16px;
-        /* Larger radius */
         background: rgba(29, 29, 29, 0.98);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
@@ -154,11 +151,27 @@
         z-index: 900;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
         cursor: pointer;
-        transition: transform 0.2s ease;
+
+        /* Animation setup */
+        transform: translateY(200px);
+        /* Hidden below screen by default */
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+            opacity 0.3s ease;
+        pointer-events: none;
+        /* Don't block clicks when hidden */
+    }
+
+    /* Show mini-player with animation */
+    .mini-player[style*="display: flex"],
+    .mini-player.visible {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: auto;
     }
 
     .mini-player:active {
-        transform: scale(0.98);
+        transform: translateY(0) scale(0.98);
     }
 
     .mini-player-progress {
