@@ -750,12 +750,15 @@ body {
     }
 
     100% {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
+        /* Move full width to show all text */
     }
 }
 
 .mini-title.scrolling {
-    animation: marquee 15s linear infinite;
+    animation: marquee 20s linear infinite;
+    /* Slower for better readability */
+    display: inline-block;
 }
 
 /* Show full text by duplicating it */
