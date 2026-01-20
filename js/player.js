@@ -286,17 +286,17 @@ class ProtoMusicPlayer {
             if (!this.currentVideo) {
                 // Remove visible class for slide-down animation
                 miniPlayer.classList.remove('visible');
-                // On mobile, reduce bottom padding when player is hidden
-                if (mainContent && window.innerWidth <= 768) {
-                    mainContent.classList.add('no-player');
+                // Remove extra padding when player is hidden
+                if (mainContent) {
+                    mainContent.classList.remove('has-player');
                 }
             } else {
                 // Add visible class for slide-up animation
                 miniPlayer.classList.add('visible');
                 miniPlayer.style.display = 'flex';
-                // Restore padding when player is visible
+                // Add extra padding when player is visible
                 if (mainContent) {
-                    mainContent.classList.remove('no-player');
+                    mainContent.classList.add('has-player');
                 }
             }
         }

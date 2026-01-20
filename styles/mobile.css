@@ -82,18 +82,18 @@
     .main-content {
         width: 100%;
         height: 100%;
-        padding-bottom: 150px;
-        /* Space for mini-player + bottom-nav */
+        padding-bottom: 100px;
+        /* Only bottom nav by default */
         background: var(--bg-primary);
         overflow-y: auto;
         overflow-x: hidden;
         transition: padding-bottom 0.3s ease;
     }
 
-    /* When no video is playing, reduce padding */
-    .main-content.no-player {
-        padding-bottom: 120px;
-        /* Bottom nav (70px) + safe clearance */
+    /* Add extra padding when player is visible */
+    .main-content.has-player {
+        padding-bottom: 160px;
+        /* Bottom nav + mini-player + spacing */
     }
 
     .page-container {
