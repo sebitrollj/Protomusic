@@ -74,7 +74,30 @@ class ProtoMusicAPI {
     }
 
     async getSeries() {
-        // Hardcoded seasons for PWA since we can't scrape
+        try {
+            const response = await fetch(`${this.baseUrl}/kikiskothek/`);
+            const data = await response.json();
+
+            if (data && data.seasons && data.seasons.length > 0) {
+                return {
+                    success: true,
+                    series: data.seasons.map(season => ({
+                        series_id: season.id || season.season_id,
+                        season_name: season.name || season.season_name,
+                        episode_count: season.episode_count || 0
+                    }))
+                };
+            }
+
+            // Fallback to hardcoded if API fails
+            return this.getFallbackSeasons();
+        } catch (error) {
+            console.warn('Failed to fetch seasons from API:', error);
+            return this.getFallbackSeasons();
+        }
+    }
+
+    getFallbackSeasons() {
         const seasons = [
             { series_id: '10', season_name: 'Saison 10', episode_count: 0 },
             { series_id: '9', season_name: 'Saison 9', episode_count: 1 },
@@ -93,39 +116,29 @@ class ProtoMusicAPI {
     }
 
     async getEpisodes(seasonId) {
-        // Hardcoded episodes for recent content (Saison 10)
-        if (seasonId === '10') {
-            return {
-                success: true,
-                episodes: [
-                    { video_id: 'VcvYQmU8yos', title: 'LA 207 Du Malheur !', duration: '3:21' }
-                ].map((ep, i) => ({
-                    ...ep,
-                    episode_number: i + 1,
-                    thumbnail: this.getThumbnailUrl(ep.video_id),
-                    owner_name: 'Saison 10'
-                }))
-            };
-        }
+        try {
+            const response = await fetch(`${this.baseUrl}/kikiskothek/?season=${seasonId}`);
+            const data = await response.json();
 
-        // Try to search for the season
-        const query = seasonId === 'kalandar' ? 'Kalandar' : `Saison ${seasonId}`;
-        return this.search(query).then(result => {
-            if (result.success && result.videos) {
+            if (data && data.episodes && data.episodes.length > 0) {
                 return {
                     success: true,
-                    episodes: result.videos.map((v, i) => ({
-                        video_id: v.video_id,
-                        episode_number: i + 1,
-                        title: v.title,
-                        thumbnail: this.getThumbnailUrl(v.video_id),
-                        owner_name: v.owner_name,
-                        duration: v.duration
+                    episodes: data.episodes.map((ep, i) => ({
+                        video_id: ep.video_id || ep.id,
+                        episode_number: ep.episode_number || (i + 1),
+                        title: ep.title,
+                        thumbnail: ep.thumbnail || this.getThumbnailUrl(ep.video_id || ep.id),
+                        owner_name: ep.owner_name || `Saison ${seasonId}`,
+                        duration: ep.duration || '0:00'
                     }))
                 };
             }
+
             return { success: true, episodes: [] };
-        });
+        } catch (error) {
+            console.warn('Failed to fetch episodes from API:', error);
+            return { success: true, episodes: [] };
+        }
     }
 
     async trackView(videoId) {
