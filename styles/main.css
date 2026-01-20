@@ -92,7 +92,7 @@ body {
 .app-container {
     display: grid;
     grid-template-columns: var(--sidebar-width) 1fr;
-    /* grid-template-rows: 1fr var(--mini-player-height); */
+    grid-template-rows: 1fr var(--mini-player-height);
     height: 100vh;
     overflow: hidden;
 }
