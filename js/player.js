@@ -422,7 +422,23 @@ class ProtoMusicPlayer {
 
         // Mini player
         if (this.miniThumbnail) this.miniThumbnail.src = thumbnailUrl;
-        if (this.miniTitle) this.miniTitle.textContent = title;
+        if (this.miniTitle) {
+            this.miniTitle.textContent = title;
+
+            // Enable scrolling marquee for long titles on mobile
+            if (window.innerWidth <= 768) {
+                this.miniTitle.setAttribute('data-text', title);
+
+                // Check if text overflows
+                setTimeout(() => {
+                    if (this.miniTitle.scrollWidth > this.miniTitle.clientWidth) {
+                        this.miniTitle.classList.add('scrolling');
+                    } else {
+                        this.miniTitle.classList.remove('scrolling');
+                    }
+                }, 100);
+            }
+        }
         if (this.miniArtist) this.miniArtist.textContent = owner_name || 'Inconnu';
 
         // Full player
