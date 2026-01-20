@@ -92,8 +92,8 @@
 
     /* When no video is playing, reduce padding */
     .main-content.no-player {
-        padding-bottom: 90px;
-        /* Only bottom nav height */
+        padding-bottom: 120px;
+        /* Bottom nav (70px) + safe clearance */
     }
 
     .page-container {
