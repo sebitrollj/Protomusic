@@ -280,11 +280,21 @@ class ProtoMusicPlayer {
 
     hidePlayerIfEmpty() {
         const miniPlayer = document.querySelector('.mini-player');
+        const mainContent = document.querySelector('.main-content');
+
         if (miniPlayer) {
             if (!this.currentVideo) {
                 miniPlayer.style.display = 'none';
+                // On mobile, reduce bottom padding when player is hidden
+                if (mainContent && window.innerWidth <= 768) {
+                    mainContent.classList.add('no-player');
+                }
             } else {
                 miniPlayer.style.display = 'flex';
+                // Restore padding when player is visible
+                if (mainContent) {
+                    mainContent.classList.remove('no-player');
+                }
             }
         }
     }

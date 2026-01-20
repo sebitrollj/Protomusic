@@ -83,10 +83,17 @@
         width: 100%;
         height: 100%;
         padding-bottom: 150px;
-        /* Increased for better spacing */
+        /* Space for mini-player + bottom-nav */
         background: var(--bg-primary);
         overflow-y: auto;
         overflow-x: hidden;
+        transition: padding-bottom 0.3s ease;
+    }
+
+    /* When no video is playing, reduce padding */
+    .main-content.no-player {
+        padding-bottom: 90px;
+        /* Only bottom nav height */
     }
 
     .page-container {
