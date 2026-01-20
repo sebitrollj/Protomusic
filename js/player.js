@@ -67,6 +67,7 @@ class ProtoMusicPlayer {
         // Queue Panel Elements
         this.queuePanel = document.getElementById('queuePanel');
         this.queueBtn = document.getElementById('queueBtn');
+        this.fullQueueBtn = document.getElementById('fullQueueBtn'); // Fullscreen player queue button
         this.closeQueueBtn = document.getElementById('closeQueueBtn');
         this.queueCurrentItem = document.getElementById('queueCurrentItem');
         this.queueList = document.getElementById('queueList');
@@ -203,6 +204,7 @@ class ProtoMusicPlayer {
 
         // Queue panel
         this.queueBtn?.addEventListener('click', () => this.toggleQueuePanel());
+        this.fullQueueBtn?.addEventListener('click', () => this.toggleQueuePanel()); // Fullscreen queue button
         this.closeQueueBtn?.addEventListener('click', () => this.hideQueuePanel());
 
         // Full Player Favorites Button
@@ -425,18 +427,19 @@ class ProtoMusicPlayer {
         if (this.miniTitle) {
             this.miniTitle.textContent = title;
 
-            // Enable scrolling marquee for long titles on mobile
-            if (window.innerWidth <= 768) {
-                this.miniTitle.setAttribute('data-text', title);
+            // Always set data-text for potential marquee
+            this.miniTitle.setAttribute('data-text', title);
 
-                // Check if text overflows
-                setTimeout(() => {
-                    if (this.miniTitle.scrollWidth > this.miniTitle.clientWidth) {
-                        this.miniTitle.classList.add('scrolling');
-                    } else {
-                        this.miniTitle.classList.remove('scrolling');
-                    }
-                }, 100);
+            // Enable scrolling marquee for long titles (always on mobile)
+            if (window.innerWidth <= 768) {
+                // Use a simpler check: if title is longer than 20 chars, enable scroll
+                if (title.length > 20) {
+                    this.miniTitle.classList.add('scrolling');
+                } else {
+                    this.miniTitle.classList.remove('scrolling');
+                }
+            } else {
+                this.miniTitle.classList.remove('scrolling');
             }
         }
         if (this.miniArtist) this.miniArtist.textContent = owner_name || 'Inconnu';

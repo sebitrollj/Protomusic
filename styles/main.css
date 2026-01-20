@@ -2057,3 +2057,81 @@ body.ambient-mode .full-player {
     background: rgba(255, 255, 255, 0.1);
     margin: 6px 0;
 }
+
+/* =============================================
+   Additional Mobile Responsiveness
+   ============================================= */
+
+/* Extra small screens (phones < 375px) */
+@media (max-width: 375px) {
+    .video-grid {
+        gap: 12px;
+    }
+
+    .video-grid.compact {
+        gap: 6px;
+    }
+
+    .section-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .mini-player-content {
+        gap: 12px;
+        padding: 0 12px;
+    }
+}
+
+/* Small screens (phones 376-480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+    .video-grid {
+        gap: 14px;
+    }
+
+    .video-grid.compact {
+        gap: 8px;
+    }
+}
+
+/* Medium screens (tablets 481-768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .mini-player-content {
+        gap: 20px;
+    }
+}
+
+/* Large tablets and small desktops (769-1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Desktop (> 1024px) */
+@media (min-width: 1025px) {
+    .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+
+    .video-grid.large {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+}
