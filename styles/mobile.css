@@ -58,6 +58,11 @@
     transform: scale(1.1);
 }
 
+/* Hide mobile-only elements on desktop */
+.mobile-logo {
+    display: none;
+}
+
 /* ============================================
    Mobile Media Query
    ============================================ */
@@ -118,10 +123,43 @@
 
     /* ========== Header ========== */
     .main-header {
-        padding: 16px 12px;
-        /* Match page padding */
-        height: auto;
-        min-height: 70px;
+        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        background: var(--bg-primary);
+    }
+
+    /* Mobile Logo - Only visible on mobile */
+    .mobile-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 4px 0;
+    }
+
+    .mobile-logo .logo-icon {
+        width: 32px;
+        height: 32px;
+        background: linear-gradient(135deg, #FF0000 0%, #FF4444 100%);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+
+    .mobile-logo .logo-icon svg {
+        width: 20px;
+        height: 20px;
+        color: white;
+    }
+
+    .mobile-logo .logo-text {
+        font-size: 20px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.5px;
     }
 
     .search-container {
@@ -136,22 +174,23 @@
         border-radius: 24px;
     }
 
-    /* ========== Mini Player - Redesigned ========== */
+    /* ========== Mini Player - Clean & Simple ========== */
     .mini-player {
         position: fixed;
         bottom: calc(70px + env(safe-area-inset-bottom));
-        left: 0;
-        right: 0;
-        height: auto;
-        background: linear-gradient(135deg, rgba(20, 20, 20, 0.98) 0%, rgba(30, 30, 30, 0.98) 100%);
-        backdrop-filter: blur(40px);
-        -webkit-backdrop-filter: blur(40px);
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        left: 8px;
+        right: 8px;
+        height: 68px;
+        background: rgba(25, 25, 25, 0.98);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
         z-index: 900;
-        box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.4);
-        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        overflow: hidden;
 
-        /* Animation setup */
+        /* Animation */
         transform: translateY(200px);
         opacity: 0;
         transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
@@ -159,61 +198,50 @@
         pointer-events: none;
     }
 
-    /* Show mini-player with animation */
-    .mini-player[style*="display: flex"],
     .mini-player.visible {
         transform: translateY(0);
         opacity: 1;
         pointer-events: auto;
     }
 
-    .mini-player:active {
-        transform: translateY(0) scale(0.98);
-    }
-
+    /* Progress bar at bottom */
     .mini-player-progress {
         position: absolute;
-        top: 0;
+        bottom: 0;
         left: 0;
         right: 0;
-        height: 3px;
+        height: 2px;
         background: rgba(255, 255, 255, 0.1);
-        overflow: hidden;
     }
 
     .mini-progress-bar {
         height: 100%;
-        background: linear-gradient(90deg, #FF0000 0%, #FF4444 100%);
+        background: #FF0000;
         transition: width 0.1s linear;
-        box-shadow: 0 0 8px rgba(255, 0, 0, 0.5);
     }
 
+    /* Content layout */
     .mini-player-content {
         display: flex;
         align-items: center;
-        padding: 16px;
-        gap: 16px;
-        position: relative;
+        padding: 10px 12px;
+        height: 100%;
+        gap: 12px;
     }
 
+    /* Thumbnail */
     .mini-thumbnail {
-        width: 52px;
-        height: 52px;
-        border-radius: 8px;
+        width: 48px;
+        height: 48px;
+        border-radius: 6px;
         overflow: hidden;
         flex-shrink: 0;
-        background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-        position: relative;
+        background: #1a1a1a;
     }
 
     .mini-thumbnail::after {
-        content: '';
-        position: absolute;
-        inset: 0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 8px;
-        pointer-events: none;
+        display: none;
+        /* Remove border overlay */
     }
 
     .mini-thumbnail img {
@@ -222,62 +250,53 @@
         object-fit: cover;
     }
 
+    /* Now Playing Text */
     .mini-now-playing {
         flex: 1;
         min-width: 0;
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 2px;
     }
 
     .mini-title {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 600;
         color: white;
         line-height: 1.3;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        letter-spacing: -0.2px;
     }
 
     .mini-artist {
-        font-size: 13px;
+        font-size: 12px;
         color: rgba(255, 255, 255, 0.6);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
     }
 
-    .mini-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* Hide extra controls */
-    .mini-controls #prevBtn,
-    .mini-controls #nextBtn {
-        display: none !important;
-    }
-
-    .mini-time-volume {
-        display: none !important;
-    }
-
-    .mini-like-btn {
-        display: none;
-    }
-
+    /* Controls */
     .mini-controls {
         display: flex;
         align-items: center;
-        gap: 8px;
+        flex-shrink: 0;
     }
 
-    /* Play Button - Modern Circle */
+    /* Hide extra buttons */
+    .mini-controls #prevBtn,
+    .mini-controls #nextBtn,
+    .mini-time-volume,
+    .mini-like-btn,
+    .mini-info {
+        display: none !important;
+    }
+
+    /* Play Button */
     .mini-btn.play-btn {
-        width: 52px;
-        height: 52px;
+        width: 48px;
+        height: 48px;
         background: white;
         color: black;
         border-radius: 50%;
@@ -285,34 +304,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .mini-btn.play-btn::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background: radial-gradient(circle, rgba(0, 0, 0, 0.05) 0%, transparent 70%);
-        opacity: 0;
-        transition: opacity 0.2s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.2s ease;
     }
 
     .mini-btn.play-btn:active {
-        transform: scale(0.94);
+        transform: scale(0.92);
     }
 
-    .mini-btn.play-btn:active::before {
-        opacity: 1;
-    }
-
-
-    .mini-btn.play-btn svg {
-        width: 24px;
-        height: 24px;
-        fill: currentColor;
+    .mini-btn.play-btn::before {
+        display: none;
+        /* Remove gradient overlay */
     }
 
     /* ========== Grid & Cards ========== */
@@ -599,5 +601,18 @@
     .main-content {
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
+    }
+}
+
+/* ============================================
+   Desktop: Hide mini-player when not visible
+   ============================================ */
+@media (min-width: 769px) {
+    .mini-player:not(.visible) {
+        display: none !important;
+    }
+
+    .mobile-logo {
+        display: none !important;
     }
 }
