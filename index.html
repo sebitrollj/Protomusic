@@ -250,8 +250,15 @@
                 <div class="page" data-page="kikiskotheque">
                     <section class="content-section">
                         <div class="section-header">
-                            <h2>🎵 Kikiskothèque</h2>
-                            <span class="section-subtitle">Toute la collection musicale</span>
+                            <div>
+                                <h2>🎵 Kikiskothèque</h2>
+                                <span class="section-subtitle">Toute la collection musicale</span>
+                            </div>
+                            <button class="view-toggle-btn" onclick="app.toggleViewMode()" title="Vue compacte">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M3 3h8v8H3V3m10 0h8v8h-8V3M3 13h8v8H3v-8m10 0h8v8h-8v-8z" />
+                                </svg>
+                            </button>
                         </div>
                         <div class="video-grid large" id="kikiskothequeGrid">
                             <!-- All music content -->

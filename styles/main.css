@@ -408,6 +408,34 @@ body {
     color: var(--text-primary);
 }
 
+/* View toggle button */
+.view-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.view-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--accent-primary);
+}
+
+.view-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+
 /* ============================================
    Video Grid
    ============================================ */
@@ -419,6 +447,51 @@ body {
 
 .video-grid.large {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* Compact grid view - 2 columns */
+.video-grid.compact {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.video-grid.compact .video-card {
+    font-size: 0.85rem;
+}
+
+.video-grid.compact .video-info h3 {
+    font-size: 0.9rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.video-grid.compact .video-meta {
+    font-size: 0.75rem;
+}
+
+/* Responsive mobile grid */
+@media (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: 1fr;
+        /* 1 column by default on mobile */
+        gap: 16px;
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns in compact mode */
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-grid.compact {
+        gap: 6px;
+    }
+
+    .video-grid.compact .video-info h3 {
+        font-size: 0.85rem;
+    }
 }
 
 .video-card {

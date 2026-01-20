@@ -15,6 +15,7 @@ class ProtoMusicApp {
         this.favorites = this.loadFavorites();
         this.contextMenu = null;
         this.contextMenuVideo = null;
+        this.viewMode = localStorage.getItem('season-view-mode') || 'large'; // Grid view mode
 
         this.init();
     }
@@ -1089,6 +1090,50 @@ class ProtoMusicApp {
             pageContainer.style.backgroundColor = '';
             pageContainer.style.animation = '';
             pageContainer.style.filter = '';
+        }
+    }
+
+    /**
+     * Toggle grid view mode between large and compact
+     */
+    toggleViewMode() {
+        this.viewMode = this.viewMode === 'large' ? 'compact' : 'large';
+        localStorage.setItem('season-view-mode', this.viewMode);
+
+        // Apply to all video grids on current page
+        const grids = document.querySelectorAll('.video-grid');
+        grids.forEach(grid => {
+            grid.classList.remove('large', 'compact');
+            grid.classList.add(this.viewMode);
+        });
+
+        // Update toggle button icon
+        this.updateViewButtonIcon();
+    }
+
+    /**
+     * Update view toggle button icon
+     */
+    updateViewButtonIcon() {
+        const btn = document.querySelector('.view-toggle-btn');
+        if (!btn) return;
+
+        if (this.viewMode === 'compact') {
+            // Show "large view" icon when compact is active
+            btn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 5h18v4H3V5m0 6h18v4H3v-4m0 6h18v4H3v-4z"/>
+                </svg>
+            `;
+            btn.title = 'Vue large';
+        } else {
+            // Show "compact view" icon when large is active
+            btn.innerHTML = `
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M3 3h8v8H3V3m10 0h8v8h-8V3M3 13h8v8H3v-8m10 0h8v8h-8v-8z"/>
+                </svg>
+            `;
+            btn.title = 'Vue compacte';
         }
     }
 }
