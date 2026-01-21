@@ -421,12 +421,6 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
-.video-grid.compact {
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-}
-
-
-
 .video-card {
     position: relative;
     cursor: pointer;
@@ -751,16 +745,9 @@ body {
     text-overflow: ellipsis;
 }
 
-/* Artist row with heart button */
-.mini-artist-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 .mini-like-btn {
-    width: 24px;
-    height: 24px;
+    width: 32px;
+    height: 32px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -768,21 +755,13 @@ body {
     border: none;
     color: var(--text-tertiary);
     cursor: pointer;
+    border-radius: var(--radius-full);
     transition: all var(--transition-fast);
-    flex-shrink: 0;
 }
 
 .mini-like-btn:hover {
     color: var(--accent-primary);
-    transform: scale(1.1);
-}
-
-.mini-like-btn.liked {
-    color: var(--accent-primary);
-}
-
-.mini-like-btn.liked svg {
-    fill: var(--accent-primary);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .mini-like-btn svg {
@@ -1970,11 +1949,4 @@ body.ambient-mode .full-player {
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
     margin: 6px 0;
-}
-
-/* Hide fullscreen queue button on desktop */
-@media (min-width: 769px) {
-    #fullQueueBtn {
-        display: none !important;
-    }
 }
