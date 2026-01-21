@@ -408,6 +408,34 @@ body {
     color: var(--text-primary);
 }
 
+/* View toggle button */
+.view-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.view-toggle-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--accent-primary);
+}
+
+.view-toggle-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+
 /* ============================================
    Video Grid
    ============================================ */
@@ -419,6 +447,51 @@ body {
 
 .video-grid.large {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* Compact grid view - 2 columns */
+.video-grid.compact {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.video-grid.compact .video-card {
+    font-size: 0.85rem;
+}
+
+.video-grid.compact .video-info h3 {
+    font-size: 0.9rem;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.video-grid.compact .video-meta {
+    font-size: 0.75rem;
+}
+
+/* Responsive mobile grid */
+@media (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: 1fr;
+        /* 1 column by default on mobile */
+        gap: 16px;
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(2, 1fr);
+        /* 2 columns in compact mode */
+        gap: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-grid.compact {
+        gap: 6px;
+    }
+
+    .video-grid.compact .video-info h3 {
+        font-size: 0.85rem;
+    }
 }
 
 .video-card {
@@ -697,15 +770,21 @@ body {
     align-items: center;
     padding: 0 16px;
     gap: 24px;
+    overflow: hidden;
+    /* Prevent marquee from overflowing */
 }
 
-/* Now Playing */
 .mini-now-playing {
+    flex: 1;
+    min-width: 0;
     display: flex;
-    align-items: center;
-    gap: 12px;
-    min-width: 240px;
-    max-width: 300px;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+    margin-right: 16px;
+    /* Space between text and play button */
 }
 
 .mini-thumbnail {
@@ -733,8 +812,36 @@ body {
     font-weight: 500;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    margin-bottom: 2px;
+    position: relative;
+    width: 100%;
+}
+
+/* Marquee animation for long titles */
+@keyframes marquee {
+    0% {
+        transform: translateX(0%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+        /* Move full width to show all text */
+    }
+}
+
+.mini-title.scrolling {
+    animation: marquee 20s linear infinite;
+    /* Slower for better readability */
+    display: inline-block;
+}
+
+/* Show full text by duplicating it */
+.mini-title.scrolling::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 100%;
+    padding-left: 3em;
+    /* Larger gap between loops */
+    white-space: nowrap;
 }
 
 .mini-artist {
@@ -1949,4 +2056,82 @@ body.ambient-mode .full-player {
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
     margin: 6px 0;
+}
+
+/* =============================================
+   Additional Mobile Responsiveness
+   ============================================= */
+
+/* Extra small screens (phones < 375px) */
+@media (max-width: 375px) {
+    .video-grid {
+        gap: 12px;
+    }
+
+    .video-grid.compact {
+        gap: 6px;
+    }
+
+    .section-header h2 {
+        font-size: 1.1rem;
+    }
+
+    .mini-player-content {
+        gap: 12px;
+        padding: 0 12px;
+    }
+}
+
+/* Small screens (phones 376-480px) */
+@media (min-width: 376px) and (max-width: 480px) {
+    .video-grid {
+        gap: 14px;
+    }
+
+    .video-grid.compact {
+        gap: 8px;
+    }
+}
+
+/* Medium screens (tablets 481-768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .mini-player-content {
+        gap: 20px;
+    }
+}
+
+/* Large tablets and small desktops (769-1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Desktop (> 1024px) */
+@media (min-width: 1025px) {
+    .video-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+
+    .video-grid.large {
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
 }

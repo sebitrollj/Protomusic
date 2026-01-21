@@ -77,9 +77,6 @@ class ProtoMusicPlayer {
         this.fullFavoriteBtn = document.getElementById('fullFavoriteBtn');
         this.fullFavoriteText = document.getElementById('fullFavoriteText');
 
-        // Mini Player Like Button
-        this.miniLikeBtn = document.getElementById('miniLikeBtn');
-
         // Reload Queue Button
         this.reloadQueueBtn = document.getElementById('reloadQueueBtn');
 
@@ -212,9 +209,6 @@ class ProtoMusicPlayer {
 
         // Full Player Favorites Button
         this.fullFavoriteBtn?.addEventListener('click', () => this.toggleFullPlayerFavorite());
-
-        // Mini Player Like Button
-        this.miniLikeBtn?.addEventListener('click', () => this.toggleMiniPlayerFavorite());
 
         // Reload Queue Button
         this.reloadQueueBtn?.addEventListener('click', () => this.reloadQueue());
@@ -1025,50 +1019,21 @@ class ProtoMusicPlayer {
         }
     }
 
-    /**
-     * Toggle favorite from mini-player like button
-     */
-    toggleMiniPlayerFavorite() {
-        if (!this.currentVideo || !window.app) return;
-
-        app.toggleFavorite(this.currentVideo);
-        const isFavorite = app.favorites.has(this.currentVideo.video_id);
-
-        // Update button state
-        this.miniLikeBtn?.classList.toggle('liked', isFavorite);
-
-        // Update SVG fill
-        const svg = this.miniLikeBtn?.querySelector('svg');
-        if (svg) {
-            svg.setAttribute('fill', isFavorite ? 'currentColor' : 'none');
-        }
-
-        // Also update full player button if exists
-        this.updateFullPlayerFavoriteUI();
-    }
-
     updateFullPlayerFavoriteUI() {
         if (!this.currentVideo || !window.app) return;
 
         const isFavorite = app.favorites.has(this.currentVideo.video_id);
 
-        // Update full player button state
+        // Update button state
         this.fullFavoriteBtn?.classList.toggle('active', isFavorite);
         if (this.fullFavoriteText) {
             this.fullFavoriteText.textContent = isFavorite ? 'Retirer des favoris' : 'Ajouter aux favoris';
         }
 
-        // Update full player SVG fill
-        const fullSvg = this.fullFavoriteBtn?.querySelector('svg');
-        if (fullSvg) {
-            fullSvg.setAttribute('fill', isFavorite ? 'currentColor' : 'none');
-        }
-
-        // Update mini-player like button
-        this.miniLikeBtn?.classList.toggle('liked', isFavorite);
-        const miniSvg = this.miniLikeBtn?.querySelector('svg');
-        if (miniSvg) {
-            miniSvg.setAttribute('fill', isFavorite ? 'currentColor' : 'none');
+        // Update SVG fill
+        const svg = this.fullFavoriteBtn?.querySelector('svg');
+        if (svg) {
+            svg.setAttribute('fill', isFavorite ? 'currentColor' : 'none');
         }
     }
 
