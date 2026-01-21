@@ -747,8 +747,16 @@ body {
     height: var(--mini-player-height);
     background: linear-gradient(to right, #1D1D1D 0%, #282828 100%);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
-    display: flex;
+    display: none;
+    /* Hidden on desktop */
     flex-direction: column;
+}
+
+/* Show mini-player only on mobile */
+@media (max-width: 768px) {
+    .mini-player {
+        display: flex;
+    }
 }
 
 .mini-player-progress {
