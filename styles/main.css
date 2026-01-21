@@ -2408,76 +2408,144 @@ body.ambient-mode .full-player {
         justify-content: center;
     }
 
-    /* Fullscreen player mobile optimizations */
+    /* ===== MOBILE FULLSCREEN PLAYER - REBUILT ===== */
+
+    /* 1. Fullscreen Overlay - Full screen container */
+    .full-player-overlay {
+        z-index: 9999 !important;
+        background: var(--bg-primary);
+    }
+
+    /* 2. Full Player - Vertical flex layout */
     .full-player {
-        padding: 16px 12px;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 0;
+        padding-bottom: 70px;
+        /* Space for bottom nav */
     }
 
+    /* 3. Close Button */
     .close-player-btn {
-        top: 12px;
+        position: absolute;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 10;
     }
 
-    /* Hide queue button on mobile */
-    .queue-btn,
-    #fullQueueBtn {
-        display: none !important;
-    }
-
-    /* Full player controls - simplify for mobile */
-    .full-controls {
-        gap: 16px;
-    }
-
-    .full-btn {
-        width: 44px;
-        height: 44px;
-    }
-
-    .play-pause-btn {
-        width: 64px !important;
-        height: 64px !important;
-    }
-
-    /* Video container - fix empty screen bug */
-    .video-container {
-        position: relative;
+    /* 4. Full Player Content - Scrollable vertical layout */
+    .full-player-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: 60px 16px 20px;
+        /* Top padding for close button */
+        gap: 24px;
+        overflow-y: auto;
+        align-items: center;
+        justify-content: flex-start;
+        max-width: 100%;
         width: 100%;
-        aspect-ratio: unset !important;
-        /* Remove fixed aspect ratio on mobile */
+    }
+
+    /* 5. Video Container - Stable aspect ratio */
+    .video-container {
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
         max-height: 40vh;
-        min-height: 250px;
-        /* Ensure minimum visibility */
         background: #000;
         border-radius: var(--radius-lg);
+        overflow: hidden;
+        flex-shrink: 0;
     }
 
     .video-container video {
         width: 100%;
         height: 100%;
-        max-height: 40vh;
         object-fit: contain;
     }
 
-    .full-player-content {
-        gap: 20px;
-        max-width: 100%;
+    /* 6. Player Info - Centered text section */
+    .full-player-info {
+        width: 100%;
+        text-align: center;
+        padding: 0;
     }
 
-    .full-player-info {
-        flex: 1;
+    .full-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        line-height: 1.4;
+        margin-bottom: 8px;
+    }
+
+    .full-artist {
+        font-size: 1rem;
+        opacity: 0.7;
+    }
+
+    /* 7. Favorite Button */
+    .full-favorite-btn {
+        margin: 16px auto;
+        display: inline-flex;
+    }
+
+    /* 8. Progress Section */
+    .progress-section {
+        width: 100%;
+        padding: 16px 0;
+    }
+
+    .time-display {
+        justify-content: space-between;
+        width: 100%;
+        font-size: 0.85rem;
+    }
+
+    /* 9. Controls - Centered and touch-friendly */
+    .full-controls-wrapper {
+        width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        padding: 20px 0;
+        gap: 16px;
+        align-items: center;
     }
 
-    /* CRITICAL FIX: Hide mini-player when fullscreen is active */
-    body:has(.full-player-overlay:not(.hidden)) .mini-player {
+    .full-controls {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .full-btn {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+    }
+
+    .play-pause-btn {
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    /* Secondary controls (shuffle, repeat, queue) */
+    .secondary-controls {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+    }
+
+    /* 10. Hide queue button on mobile */
+    #fullQueueBtn {
         display: none !important;
     }
 
-    /* Ensure fullscreen overlay is above everything */
-    .full-player-overlay {
-        z-index: 10000 !important;
+    /* 11. CRITICAL: Hide mini-player when fullscreen active */
+    body:has(.full-player-overlay:not(.hidden)) .mini-player {
+        display: none !important;
     }
 }
