@@ -421,6 +421,17 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
 }
 
+.video-grid.compact {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+}
+
+/* Hide fullscreen queue button on desktop */
+@media (min-width: 769px) {
+    .queue-btn {
+        display: none;
+    }
+}
+
 .video-card {
     position: relative;
     cursor: pointer;
@@ -745,9 +756,16 @@ body {
     text-overflow: ellipsis;
 }
 
+/* Artist row with heart button */
+.mini-artist-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
 .mini-like-btn {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -755,13 +773,21 @@ body {
     border: none;
     color: var(--text-tertiary);
     cursor: pointer;
-    border-radius: var(--radius-full);
     transition: all var(--transition-fast);
+    flex-shrink: 0;
 }
 
 .mini-like-btn:hover {
     color: var(--accent-primary);
-    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.mini-like-btn.liked {
+    color: var(--accent-primary);
+}
+
+.mini-like-btn.liked svg {
+    fill: var(--accent-primary);
 }
 
 .mini-like-btn svg {
