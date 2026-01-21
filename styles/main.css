@@ -770,10 +770,11 @@ body {
     display: flex;
     align-items: center;
     padding: 0 16px;
-    gap: 24px;
+    gap: 16px;
     overflow: hidden;
-    /* Prevent marquee from overflowing */
 }
+
+/* Layout: [thumbnail + title]  [heart + controls (centered)]  [time + volume] */
 
 .mini-now-playing {
     flex: 1;
@@ -784,8 +785,7 @@ body {
     overflow: hidden;
     position: relative;
     z-index: 1;
-    margin-right: 16px;
-    /* Space between text and play button */
+    /* Space between text and controls */
 }
 
 .mini-thumbnail {
@@ -890,6 +890,9 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .mini-btn {
@@ -2461,5 +2464,15 @@ body.ambient-mode .full-player {
         flex-direction: column;
         justify-content: center;
         padding: 20px 0;
+    }
+
+    /* CRITICAL FIX: Hide mini-player when fullscreen is active */
+    body:has(.full-player-overlay:not(.hidden)) .mini-player {
+        display: none !important;
+    }
+
+    /* Ensure fullscreen overlay is above everything */
+    .full-player-overlay {
+        z-index: 10000 !important;
     }
 }
