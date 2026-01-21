@@ -77,6 +77,9 @@ class ProtoMusicPlayer {
         this.fullFavoriteBtn = document.getElementById('fullFavoriteBtn');
         this.fullFavoriteText = document.getElementById('fullFavoriteText');
 
+        // Mini Player Favorite Button
+        this.miniFavoriteBtn = document.getElementById('miniFavoriteBtn');
+
         // Reload Queue Button
         this.reloadQueueBtn = document.getElementById('reloadQueueBtn');
 
@@ -209,6 +212,9 @@ class ProtoMusicPlayer {
 
         // Full Player Favorites Button
         this.fullFavoriteBtn?.addEventListener('click', () => this.toggleFullPlayerFavorite());
+
+        // Mini Player Favorite Button
+        this.miniFavoriteBtn?.addEventListener('click', () => this.toggleMiniFavorite());
 
         // Reload Queue Button
         this.reloadQueueBtn?.addEventListener('click', () => this.reloadQueue());
@@ -450,6 +456,7 @@ class ProtoMusicPlayer {
 
         // Update favorites button state
         this.updateFullPlayerFavoriteUI();
+        this.updateMiniFavoriteUI();
 
         // TESTING: Force ambient background (always on)
         console.log('🎨 TESTING: Forcing ambient background');
@@ -1014,6 +1021,34 @@ class ProtoMusicPlayer {
 
         // Update SVG fill
         const svg = this.fullFavoriteBtn?.querySelector('svg');
+        if (svg) {
+            svg.setAttribute('fill', isFavorite ? 'currentColor' : 'none');
+        }
+
+        // Also update mini player button
+        this.updateMiniFavoriteUI();
+    }
+
+    toggleMiniFavorite() {
+        if (!this.currentVideo || !window.app) return;
+
+        app.toggleFavorite(this.currentVideo);
+        this.updateMiniFavoriteUI();
+
+        // Also update full player button if visible
+        this.updateFullPlayerFavoriteUI();
+    }
+
+    updateMiniFavoriteUI() {
+        if (!this.currentVideo || !window.app) return;
+
+        const isFavorite = app.favorites.has(this.currentVideo.video_id);
+
+        // Update button state
+        this.miniFavoriteBtn?.classList.toggle('active', isFavorite);
+
+        // Update SVG fill
+        const svg = this.miniFavoriteBtn?.querySelector('svg');
         if (svg) {
             svg.setAttribute('fill', isFavorite ? 'currentColor' : 'none');
         }

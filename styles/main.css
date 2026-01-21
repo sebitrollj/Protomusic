@@ -474,13 +474,14 @@ body {
     .video-grid {
         grid-template-columns: repeat(2, 1fr);
         /* 2 columns on mobile */
-        gap: 12px;
+        gap: 6px;
+        /* Minimal gap for maximum width usage */
     }
 
     .video-grid.compact {
         grid-template-columns: repeat(2, 1fr);
         /* Same as default on mobile */
-        gap: 8px;
+        gap: 6px;
     }
 }
 
@@ -876,13 +877,19 @@ body {
     height: 18px;
 }
 
+.mini-like-btn.active {
+    color: var(--accent-primary);
+}
+
+.mini-like-btn.active svg {
+    fill: currentColor;
+}
+
 /* Mini Controls */
 .mini-controls {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex: 1;
-    justify-content: center;
 }
 
 .mini-btn {
@@ -2257,13 +2264,13 @@ body.ambient-mode .full-player {
     /* Main content takes full width */
     .main-content {
         grid-column: 1;
-        padding: 16px 12px 100px 12px;
-        /* Reduced horizontal padding */
+        padding: 12px 6px 100px 6px;
+        /* Minimal horizontal padding */
     }
 
     /* Adjust header for mobile */
     .main-header {
-        padding: 12px;
+        padding: 10px 6px;
         gap: 8px;
     }
 
@@ -2391,5 +2398,68 @@ body.ambient-mode .full-player {
         padding: 12px 16px;
         flex-direction: row;
         justify-content: center;
+    }
+
+    /* Fullscreen player mobile optimizations */
+    .full-player {
+        padding: 16px 12px;
+    }
+
+    .close-player-btn {
+        top: 12px;
+    }
+
+    /* Hide queue button on mobile */
+    .queue-btn,
+    #fullQueueBtn {
+        display: none !important;
+    }
+
+    /* Full player controls - simplify for mobile */
+    .full-controls {
+        gap: 16px;
+    }
+
+    .full-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    .play-pause-btn {
+        width: 64px !important;
+        height: 64px !important;
+    }
+
+    /* Video container - fix empty screen bug */
+    .video-container {
+        position: relative;
+        width: 100%;
+        aspect-ratio: unset !important;
+        /* Remove fixed aspect ratio on mobile */
+        max-height: 40vh;
+        min-height: 250px;
+        /* Ensure minimum visibility */
+        background: #000;
+        border-radius: var(--radius-lg);
+    }
+
+    .video-container video {
+        width: 100%;
+        height: 100%;
+        max-height: 40vh;
+        object-fit: contain;
+    }
+
+    .full-player-content {
+        gap: 20px;
+        max-width: 100%;
+    }
+
+    .full-player-info {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px 0;
     }
 }
