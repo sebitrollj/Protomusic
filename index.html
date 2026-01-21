@@ -92,7 +92,7 @@
             </nav>
 
             <div class="sidebar-footer">
-                <div class="version-info">v1.0.4</div>
+                <div class="version-info">v1.0.3</div>
             </div>
         </aside>
 
@@ -221,11 +221,15 @@
                 <div class="page" data-page="library">
                     <section class="content-section">
                         <div class="section-header">
-                            <h2>❤️ Ma Bibliothèque</h2>
-                            <span class="section-subtitle">Vos vidéos favorites</span>
+                            <h2>Ma Bibliothèque</h2>
                         </div>
-                        <div class="video-grid large" id="libraryGrid">
-                            <!-- Favorites will be loaded here -->
+                        <div class="empty-state">
+                            <svg viewBox="0 0 24 24" fill="currentColor">
+                                <path
+                                    d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z" />
+                            </svg>
+                            <h3>Votre bibliothèque est vide</h3>
+                            <p>Les vidéos que vous aimez apparaîtront ici</p>
                         </div>
                     </section>
                 </div>
@@ -450,7 +454,7 @@
                             <div class="about-content">
                                 <div class="app-info">
                                     <span class="app-name">ProtoMusic Desktop</span>
-                                    <span class="app-version">Version 1.0.4</span>
+                                    <span class="app-version">Version 1.0.0</span>
                                 </div>
                                 <p class="about-text">Une application de streaming inspirée de YouTube Music, connectée
                                     à ProtogenV2.</p>
@@ -681,41 +685,12 @@
                 <span>Jouer ensuite</span>
             </div>
             <div class="context-menu-divider"></div>
-
-            <!-- Playlist Section -->
-            <div class="context-menu-item" data-action="new-playlist">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z" />
-                </svg>
-                <span>Créer une playlist</span>
-            </div>
-            <div class="context-menu-submenu" id="playlistSubmenu">
-                <div class="context-menu-label">Ajouter à la playlist</div>
-                <div id="playlistList">
-                    <!-- Dynamically populated -->
-                </div>
-            </div>
-            <div class="context-menu-divider"></div>
-
             <div class="context-menu-item" data-action="toggle-favorite">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path
                         d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                 </svg>
                 <span>Ajouter aux favoris</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Create Playlist Modal -->
-    <div class="modal hidden" id="createPlaylistModal">
-        <div class="modal-overlay" id="playlistModalOverlay"></div>
-        <div class="modal-content">
-            <h2>Créer une playlist</h2>
-            <input type="text" id="playlistNameInput" placeholder="Nom de la playlist" maxlength="50" />
-            <div class="modal-actions">
-                <button class="btn-cancel" id="cancelPlaylistBtn">Annuler</button>
-                <button class="btn-primary" id="confirmPlaylistBtn">Créer</button>
             </div>
         </div>
     </div>

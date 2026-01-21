@@ -149,40 +149,6 @@ class ProtoMusicAPI {
         return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
     }
 
-    /**
-     * Get video details by ID (for favorites/playlists)
-     */
-    async getVideoById(videoId) {
-        try {
-            const response = await fetch(`${this.baseUrl}/api/sys/XHR/videos/${videoId}`);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch video ${videoId}`);
-            }
-
-            const data = await response.json();
-
-            return {
-                video_id: videoId,
-                title: data.title || 'Sans titre',
-                owner_name: data.owner_name || 'Inconnu',
-                thumbnail: this.getThumbnailUrl(videoId),
-                duration: data.duration || '0:00',
-                views: data.views || 0
-            };
-        } catch (error) {
-            console.error('Failed to fetch video by ID:', error);
-            // Return minimal data if fetch fails
-            return {
-                video_id: videoId,
-                title: 'Vidéo indisponible',
-                owner_name: 'Inconnu',
-                thumbnail: this.getThumbnailUrl(videoId),
-                duration: '0:00',
-                views: 0
-            };
-        }
-    }
-
     getStreamUrl(videoId) {
         return `${this.baseUrl}/webapi/media/stream/${videoId}/master.m3u8`;
     }

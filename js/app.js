@@ -13,7 +13,6 @@ class ProtoMusicApp {
         this.loadedVideos = new Set();
         this.kikisLoadedVideos = new Set();
         this.favorites = this.loadFavorites();
-        this.playlists = this.loadPlaylists(); // Playlist management
         this.contextMenu = null;
         this.contextMenuVideo = null;
         this.viewMode = localStorage.getItem('season-view-mode') || 'large'; // Grid view mode
@@ -131,24 +130,12 @@ class ProtoMusicApp {
             if (!item) return;
 
             const action = item.dataset.action;
-            const playlistId = item.dataset.playlistId;
-
             if (this.contextMenuVideo) {
-                if (action === 'new-playlist') {
-                    this.showCreatePlaylistModal();
-                } else if (playlistId) {
-                    // Add to specific playlist
-                    this.addToPlaylist(playlistId, this.contextMenuVideo.video_id);
-                    this.hideContextMenu();
-                } else {
-                    this.handleContextMenuAction(action, this.contextMenuVideo);
-                    this.hideContextMenu();
-                }
+                this.handleContextMenuAction(action, this.contextMenuVideo);
             }
-        });
 
-        // Initialize modal
-        this.initPlaylistModal();
+            this.hideContextMenu();
+        });
     }
 
     showContextMenu(e, video) {
@@ -170,9 +157,6 @@ class ProtoMusicApp {
                 ? 'Retirer des favoris'
                 : 'Ajouter aux favoris';
         }
-
-        // Populate playlist list
-        this.populatePlaylistList();
     }
 
     hideContextMenu() {
@@ -267,59 +251,6 @@ class ProtoMusicApp {
             this.loadMostViewed(),
             this.loadRandom()
         ]);
-    }
-
-    /**
-     * Load Library page with favorite videos
-     */
-    async loadLibraryPage() {
-        const grid = document.getElementById('libraryGrid');
-        if (!grid) return;
-
-        // Get favorites from Set
-        const favoriteIds = Array.from(this.favorites);
-
-        // Show empty state if no favorites
-        if (favoriteIds.length === 0) {
-            grid.innerHTML = `
-                <div class="empty-state" style="grid-column: 1/-1; text-align: center;">
-                    <svg viewBox="0 0 24 24" fill="currentColor" style="width: 64px; height: 64px; margin: 0 auto 16px; opacity: 0.5;">
-                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-                    </svg>
-                    <h3 style="margin-bottom: 8px;">Aucun favoris</h3>
-                    <p style="color: var(--text-tertiary);">Ajoutez des vidéos à vos favoris en cliquant sur ♥</p>
-                </div>
-            `;
-            return;
-        }
-
-        // Show loading state
-        grid.innerHTML = '<div class="loading-state" style="grid-column: 1/-1; text-align: center; padding: 40px;">Chargement de vos favoris...</div>';
-
-        // Fetch video data for each favorite
-        const videos = [];
-        for (const videoId of favoriteIds) {
-            try {
-                const videoData = await api.getVideoById(videoId);
-                if (videoData) {
-                    videos.push(videoData);
-                }
-            } catch (err) {
-                console.error(`Failed to load favorite ${videoId}:`, err);
-            }
-        }
-
-        // Render video cards
-        grid.innerHTML = '';
-        if (videos.length === 0) {
-            grid.innerHTML = '<div class="empty-state" style="grid-column: 1/-1; text-align: center;"><p>Impossible de charger les favoris</p></div>';
-            return;
-        }
-
-        videos.forEach(video => {
-            const card = this.createVideoCard(video);
-            grid.appendChild(card);
-        });
     }
 
     async loadFeatured() {
@@ -993,185 +924,6 @@ class ProtoMusicApp {
             return new Map();
         }
     }
-
-    /**
-     * Load playlists from localStorage
-     */
-    loadPlaylists() {
-        try {
-            const stored = localStorage.getItem('protomusic_playlists');
-            return stored ? JSON.parse(stored) : {};
-        } catch (error) {
-            console.error('Failed to load playlists:', error);
-            return {};
-        }
-    }
-
-    /**
-     * Save playlists to localStorage
-     */
-    savePlaylists() {
-        try {
-            localStorage.setItem('protomusic_playlists', JSON.stringify(this.playlists));
-        } catch (error) {
-            console.error('Failed to save playlists:', error);
-        }
-    }
-
-    /**
-     * Create a new playlist
-     */
-    createPlaylist(name, initialVideoId = null) {
-        const id = `playlist-${Date.now()}`;
-        this.playlists[id] = {
-            name: name,
-            videos: initialVideoId ? [initialVideoId] : [],
-            createdAt: Date.now(),
-            thumbnail: initialVideoId
-        };
-        this.savePlaylists();
-        console.log(`Created playlist "${name}" with ID ${id}`);
-        return id;
-    }
-
-    /**
-     * Add a video to a playlist
-     */
-    addToPlaylist(playlistId, videoId) {
-        if (!this.playlists[playlistId]) {
-            console.error(`Playlist ${playlistId} not found`);
-            return;
-        }
-
-        if (!this.playlists[playlistId].videos.includes(videoId)) {
-            this.playlists[playlistId].videos.push(videoId);
-
-            // Update thumbnail if it's the first video
-            if (!this.playlists[playlistId].thumbnail) {
-                this.playlists[playlistId].thumbnail = videoId;
-            }
-
-            this.savePlaylists();
-            console.log(`Added video ${videoId} to playlist ${playlistId}`);
-        }
-    }
-
-    /**
-     * Remove a video from a playlist
-     */
-    removeFromPlaylist(playlistId, videoId) {
-        if (!this.playlists[playlistId]) return;
-
-        const index = this.playlists[playlistId].videos.indexOf(videoId);
-        if (index > -1) {
-            this.playlists[playlistId].videos.splice(index, 1);
-            this.savePlaylists();
-        }
-    }
-
-    /**
-     * Delete a playlist
-     */
-    deletePlaylist(playlistId) {
-        delete this.playlists[playlistId];
-        this.savePlaylists();
-    }
-
-    /**
-     * Populate playlist list in context menu
-     */
-    populatePlaylistList() {
-        const playlistList = document.getElementById('playlistList');
-        if (!playlistList) return;
-
-        playlistList.innerHTML = '';
-
-        const playlistEntries = Object.entries(this.playlists);
-
-        if (playlistEntries.length === 0) {
-            playlistList.innerHTML = '<div class="context-menu-empty">Aucune playlist</div>';
-            return;
-        }
-
-        playlistEntries.forEach(([id, playlist]) => {
-            const isInPlaylist = playlist.videos.includes(this.contextMenuVideo?.video_id);
-
-            const item = document.createElement('div');
-            item.className = 'context-menu-item';
-            item.dataset.playlistId = id;
-            item.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="${isInPlaylist ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
-                    <rect x="3" y="3" width="18" height="18" rx="2"/>
-                    ${isInPlaylist ? '<path d="M9 12l2 2 4-4" stroke-width="3"/>' : ''}
-                </svg>
-                <span>${playlist.name}</span>
-            `;
-            playlistList.appendChild(item);
-        });
-    }
-
-    /**
-     * Initialize playlist modal
-     */
-    initPlaylistModal() {
-        const modal = document.getElementById('createPlaylistModal');
-        const overlay = document.getElementById('playlistModalOverlay');
-        const input = document.getElementById('playlistNameInput');
-        const confirmBtn = document.getElementById('confirmPlaylistBtn');
-        const cancelBtn = document.getElementById('cancelPlaylistBtn');
-
-        if (!modal || !input || !confirmBtn || !cancelBtn) return;
-
-        // Close modal on overlay click
-        overlay?.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        // Close on cancel
-        cancelBtn.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
-
-        // Create playlist on confirm
-        confirmBtn.addEventListener('click', () => {
-            const name = input.value.trim();
-            if (name) {
-                this.createPlaylist(name, this.contextMenuVideo?.video_id);
-                modal.classList.add('hidden');
-                input.value = '';
-                this.hideContextMenu();
-            }
-        });
-
-        // Submit on Enter
-        input.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                confirmBtn.click();
-            }
-        });
-
-        // Close on Escape
-        modal.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                modal.classList.add('hidden');
-            }
-        });
-    }
-
-    /**
-     * Show create playlist modal
-     */
-    showCreatePlaylistModal() {
-        const modal = document.getElementById('createPlaylistModal');
-        const input = document.getElementById('playlistNameInput');
-
-        if (modal && input) {
-            modal.classList.remove('hidden');
-            input.value = '';
-            input.focus();
-        }
-    }
-
 
     saveFavorites() {
         try {
