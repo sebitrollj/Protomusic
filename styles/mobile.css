@@ -1,92 +1,126 @@
 /**
- * ProtoMusic PWA - Mobile Styles
- * Comprehensive mobile-first responsive design
+ * ProtoMusic PWA - Mobile-First Design
+ * Philosophy: Mobile needs MORE space, not less!
  */
 
 /* =============================================
-   Mobile Base Layout (≤768px)
+   MOBILE LAYOUT (≤768px) - GENEROUS SPACING
    ============================================= */
 
 @media (max-width: 768px) {
 
-    /* Hide desktop sidebar */
+    /* Hide desktop sidebar completely */
     .sidebar {
         display: none !important;
     }
 
-    /* Single column layout */
+    /* Single column, full-width layout */
     .app-container {
         grid-template-columns: 1fr !important;
-        grid-template-rows: auto 1fr auto !important;
+        grid-template-rows: auto 1fr auto auto !important;
     }
 
-    /* Mobile Header */
-    .mobile-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 16px;
-        background: var(--bg-secondary);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        position: sticky;
-        top: 0;
-        z-index: 50;
-    }
-
-    .mobile-header-title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: var(--text-primary);
-    }
-
-    /* Main Content Padding */
+    /* Main Content - GENEROUS PADDING */
     .main-content {
-        padding: 16px 12px;
+        padding: 24px !important;
+        /* Increased from 16px */
         padding-bottom: calc(80px + var(--mini-player-height)) !important;
         overflow-y: auto;
+        width: 100%;
     }
 
-    /* Content Sections */
-    .content-section {
-        margin-bottom: 24px;
-    }
+    /* ==================== TYPOGRAPHY - LARGER ON MOBILE ==================== */
 
-    .section-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-        margin-bottom: 16px;
-        padding: 0 4px;
-    }
-
+    /* Headers should be BIGGER on mobile for readability */
     .section-header h2 {
-        font-size: 1.25rem;
-        margin: 0;
+        font-size: 1.75rem !important;
+        /* Increased from 1.25rem */
+        font-weight: 700;
+        line-height: 1.3;
+        margin: 0 0 16px 0;
     }
 
     .section-subtitle {
-        font-size: 0.875rem;
+        font-size: 1rem !important;
+        /* Increased from 0.875rem */
         color: var(--text-tertiary);
+        margin-top: 4px;
     }
 
-    /* Video Grids - Mobile Optimized */
+    /* Video card text - LARGER */
+    .video-info h3 {
+        font-size: 1rem !important;
+        /* Increased from 0.875rem */
+        line-height: 1.4;
+        font-weight: 600;
+    }
+
+    .video-owner {
+        font-size: 0.875rem !important;
+        /* Increased from 0.75rem */
+        margin-top: 6px;
+    }
+
+    .video-stats {
+        font-size: 0.8rem !important;
+        /* Increased */
+    }
+
+    /* Featured section - BOLD typography */
+    .featured-info h1 {
+        font-size: 2rem !important;
+        /* Increased from 1.5rem */
+        font-weight: 700;
+        line-height: 1.2;
+    }
+
+    .featured-info p {
+        font-size: 1rem !important;
+        /* Increased from 0.875rem */
+        line-height: 1.6;
+        margin: 12px 0 20px;
+    }
+
+    /* ==================== SPACING SYSTEM - MORE BREATHING ROOM ==================== */
+
+    .content-section {
+        margin-bottom: 40px !important;
+        /* Increased from 24px */
+    }
+
+    .section-header {
+        margin-bottom: 20px !important;
+        /* Increased from 16px */
+        padding: 0;
+    }
+
+    /* Video Grid - GENEROUS GAPS */
     .video-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px;
+        gap: 16px !important;
+        /* Increased from 12px */
     }
 
     .video-grid.large {
         grid-template-columns: 1fr !important;
+        gap: 20px !important;
     }
 
     .video-grid.compact {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px;
+        grid-template-columns: repeat(2, 1fr) !important;
+        /* Keep 2 cols even in compact */
+        gap: 12px !important;
     }
 
-    /* Video Cards */
+    /* Video Cards - MORE PADDING */
     .video-card {
-        border-radius: var(--radius-md);
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+    }
+
+    .video-info {
+        padding: 12px 8px !important;
+        /* Increased from 8px 4px */
     }
 
     .video-thumbnail {
@@ -94,72 +128,110 @@
         aspect-ratio: 16/9;
     }
 
-    .video-info {
-        padding: 8px 4px;
+    /* ==================== MINI PLAYER REDESIGN - LARGER, MORE PROMINENT ==================== */
+
+    .mini-player {
+        display: flex !important;
+        position: fixed;
+        bottom: 60px;
+        /* Above bottom nav */
+        left: 0;
+        right: 0;
+        height: 80px !important;
+        /* Increased from 64px */
+        background: var(--bg-secondary);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 99;
+        backdrop-filter: blur(10px);
+        padding: 12px 16px !important;
+        /* Generous padding */
     }
 
-    .video-info h3 {
-        font-size: 0.875rem;
+    .mini-player-content {
+        display: flex;
+        align-items: center;
+        gap: 16px !important;
+        /* Increased from 12px */
+        width: 100%;
+    }
+
+    /* Larger thumbnail */
+    .mini-thumbnail {
+        width: 56px !important;
+        /* Increased from 48px */
+        height: 56px !important;
+        min-width: 56px;
+        border-radius: var(--radius-md);
+        overflow: hidden;
+    }
+
+    .mini-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    /* Now playing info - LARGER TEXT */
+    .mini-now-playing {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .mini-title {
+        font-size: 1.0625rem !important;
+        /* 17px - Increased from 0.875rem */
+        font-weight: 600;
         line-height: 1.3;
-        -webkit-line-clamp: 2;
     }
 
-    .video-owner {
-        font-size: 0.75rem;
-        margin-top: 4px;
+    .mini-artist {
+        font-size: 0.875rem !important;
+        /* Increased from 0.75rem */
     }
 
-    .video-stats {
-        font-size: 0.7rem;
-        margin-top: 2px;
+    /* Larger play button */
+    .mini-controls {
+        display: flex;
+        gap: 12px !important;
+        align-items: center;
     }
 
-    /* Featured Section */
-    .featured-video {
-        min-height: 180px;
-        border-radius: var(--radius-lg);
-        margin-bottom: 20px;
+    .mini-btn {
+        width: 44px !important;
+        /* Touch-friendly */
+        height: 44px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .featured-info {
-        padding: 20px 16px;
+    .mini-btn.play-btn {
+        width: 56px !important;
+        /* Even larger play button */
+        height: 56px !important;
     }
 
-    .featured-info h1 {
-        font-size: 1.5rem;
-        line-height: 1.3;
+    .mini-btn svg {
+        width: 24px;
+        height: 24px;
     }
 
-    .featured-info p {
-        font-size: 0.875rem;
-        margin: 8px 0 16px;
-    }
+    /* ==================== BOTTOM NAVIGATION - TOUCH-FRIENDLY ==================== */
 
-    .btn-play {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-
-    /* Search Bar */
-    .search-bar {
-        margin: 0 12px 16px;
-    }
-
-    .search-bar input {
-        font-size: 1rem;
-        padding: 12px 16px 12px 44px;
-    }
-
-    /* Bottom Navigation */
     .bottom-nav {
         display: flex !important;
         position: fixed;
-        bottom: var(--mini-player-height);
+        bottom: 0;
         left: 0;
         right: 0;
+        height: 60px;
+        /* Minimum 60px */
         background: var(--bg-secondary);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 8px 0 4px;
+        padding: 4px 0 calc(4px + env(safe-area-inset-bottom));
         z-index: 100;
         backdrop-filter: blur(10px);
     }
@@ -169,13 +241,18 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         gap: 4px;
-        padding: 6px 0;
+        padding: 8px 4px;
         color: var(--text-secondary);
         text-decoration: none;
-        font-size: 0.7rem;
-        transition: all var(--transition-fast);
+        font-size: 0.75rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
         position: relative;
+        min-height: 48px;
+        /* Touch target */
+        -webkit-tap-highlight-color: transparent;
     }
 
     .bottom-nav-item.active {
@@ -185,114 +262,134 @@
     .bottom-nav-item.active::before {
         content: '';
         position: absolute;
-        top: -4px;
+        top: 0;
         left: 50%;
         transform: translateX(-50%);
-        width: 32px;
+        width: 40px;
         height: 3px;
         background: var(--accent-primary);
         border-radius: 2px;
     }
 
     .bottom-nav-item svg {
-        width: 24px;
-        height: 24px;
+        width: 26px;
+        /* Slightly larger icons */
+        height: 26px;
     }
 
-    /* Mini Player - Always visible on mobile */
-    .mini-player {
-        display: flex !important;
-        position: fixed;
-        bottom: 52px;
-        left: 0;
-        right: 0;
-        height: var(--mini-player-height);
-        background: var(--bg-secondary);
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        z-index: 99;
+    /* ==================== FEATURED SECTION - FULL WIDTH CARD ==================== */
+
+    .featured-video {
+        min-height: 240px !important;
+        /* Taller featured section */
+        border-radius: var(--radius-lg);
+        margin-bottom: 32px;
+        position: relative;
+        overflow: hidden;
     }
 
-    .mini-player-content {
-        padding: 0 12px;
-        gap: 12px;
+    .featured-info {
+        padding: 24px 20px !important;
     }
 
-    .mini-thumbnail {
-        width: 48px;
-        height: 48px;
-        min-width: 48px;
+    .btn-play {
+        padding: 14px 32px !important;
+        /* Larger button */
+        font-size: 1.0625rem !important;
+        min-height: 48px;
+        /* Touch-friendly */
     }
 
-    .mini-now-playing {
-        flex: 1;
-        min-width: 0;
-    }
+    /* ==================== FULLSCREEN PLAYER - MOBILE OPTIMIZED ==================== */
 
-    .mini-title {
-        font-size: 0.875rem;
-    }
-
-    .mini-artist {
-        font-size: 0.75rem;
-    }
-
-    .mini-controls {
-        gap: 8px;
-    }
-
-    .mini-btn {
-        width: 36px;
-        height: 36px;
-    }
-
-    .mini-btn svg {
-        width: 20px;
-        height: 20px;
-    }
-
-    /* Fullscreen Player - Mobile optimized */
     .fullscreen-player {
-        padding: 20px 16px;
+        padding: 24px 20px !important;
         display: flex;
         flex-direction: column;
     }
 
     .fullscreen-player-artwork {
-        max-width: 320px;
-        max-height: 320px;
-        margin: 20px auto;
+        max-width: 340px !important;
+        max-height: 340px !important;
+        margin: 24px auto;
+        border-radius: var(--radius-lg);
     }
 
     .fullscreen-player-info {
         text-align: center;
-        margin: 20px 0;
+        margin: 24px 0;
     }
 
     .fullscreen-title {
-        font-size: 1.5rem;
+        font-size: 1.75rem !important;
+        font-weight: 700;
+        line-height: 1.3;
         margin-bottom: 8px;
     }
 
     .fullscreen-artist {
-        font-size: 1rem;
+        font-size: 1.125rem !important;
+        color: var(--text-secondary);
     }
 
     .fullscreen-controls {
-        gap: 16px;
+        gap: 20px !important;
         margin-top: auto;
+        padding: 20px 0;
     }
 
     .control-btn {
-        width: 48px;
-        height: 48px;
+        width: 56px !important;
+        /* Touch-friendly */
+        height: 56px !important;
     }
 
     .control-btn.play-btn {
-        width: 64px;
-        height: 64px;
+        width: 72px !important;
+        height: 72px !important;
     }
 
-    /* Queue Panel */
+    /* ==================== SEARCH BAR ==================== */
+
+    .search-bar {
+        margin: 0 0 24px 0;
+    }
+
+    .search-bar input {
+        font-size: 1.0625rem !important;
+        /* 17px for iOS zoom prevention */
+        padding: 14px 16px 14px 48px !important;
+        height: 52px;
+        border-radius: var(--radius-lg);
+    }
+
+    /* ==================== MODALS & PANELS ==================== */
+
+    .modal-content {
+        min-width: 90%;
+        max-width: 95%;
+        padding: 28px 24px !important;
+        margin: 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.5rem !important;
+        margin-bottom: 20px;
+    }
+
+    .modal-content input[type="text"] {
+        font-size: 1.0625rem !important;
+        padding: 14px 16px !important;
+        height: 52px;
+    }
+
+    .btn-cancel,
+    .btn-primary {
+        padding: 14px 24px !important;
+        font-size: 1rem !important;
+        min-height: 48px;
+    }
+
     .queue-panel {
         width: 100% !important;
         right: 0;
@@ -300,220 +397,115 @@
         border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     }
 
-    .queue-header {
-        padding: 16px;
-    }
-
-    .queue-content {
-        padding: 0 16px 16px;
-    }
-
-    /* Settings */
-    .settings-content {
-        padding: 12px;
-    }
-
-    .settings-group {
-        padding: 16px 12px;
-        margin-bottom: 12px;
-    }
-
-    .settings-group h3 {
-        font-size: 1rem;
-        margin-bottom: 12px;
-    }
-
-    .setting-item {
-        padding: 12px 0;
-    }
-
-    /* Modals */
-    .modal-content {
-        min-width: 90%;
-        max-width: 95%;
-        padding: 24px 20px;
-        margin: 20px;
-    }
-
-    .modal-content h2 {
-        font-size: 1.25rem;
-        margin-bottom: 16px;
-    }
-
-    .modal-content input[type="text"] {
-        font-size: 1rem;
-        padding: 12px 14px;
-    }
-
-    .modal-actions {
-        flex-direction: row;
-        gap: 10px;
-    }
-
-    .btn-cancel,
-    .btn-primary {
-        flex: 1;
-        padding: 12px 16px;
-    }
-
-    /* Context Menu */
     .context-menu {
-        max-width: calc(100vw - 32px);
-        min-width: 240px;
+        max-width: calc(100vw - 40px);
+        border-radius: var(--radius-lg);
     }
 
     .context-menu-item {
-        padding: 14px 16px;
-        font-size: 0.95rem;
+        padding: 16px 20px !important;
+        font-size: 1rem !important;
+        min-height: 52px;
     }
 
-    .context-menu-item svg {
-        width: 22px;
-        height: 22px;
+    /* ==================== SETTINGS ==================== */
+
+    .settings-content {
+        padding: 16px;
     }
 
-    /* Kikiskothèque Grid */
-    .season-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px;
+    .settings-group {
+        padding: 20px 16px !important;
+        margin-bottom: 16px;
     }
 
-    .season-grid.compact {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 8px;
+    .settings-group h3 {
+        font-size: 1.25rem !important;
     }
 
-    .season-card {
-        border-radius: var(--radius-md);
+    .setting-item {
+        padding: 16px 0 !important;
+        min-height: 52px;
     }
 
-    /* View mode toggle */
-    .view-toggle-btn {
-        width: 36px;
-        height: 36px;
-    }
+    /* ==================== EMPTY STATES ==================== */
 
-    /* Empty States */
     .empty-state {
-        padding: 40px 20px;
+        padding: 60px 24px !important;
         text-align: center;
     }
 
     .empty-state svg {
-        width: 48px;
-        height: 48px;
-        margin-bottom: 12px;
+        width: 64px !important;
+        height: 64px !important;
+        margin-bottom: 16px;
     }
 
     .empty-state h3 {
-        font-size: 1.1rem;
-        margin-bottom: 8px;
+        font-size: 1.375rem !important;
+        margin-bottom: 12px;
     }
 
     .empty-state p {
-        font-size: 0.875rem;
+        font-size: 1rem !important;
+        line-height: 1.6;
     }
 }
 
 /* =============================================
-   Small Phones (≤480px)
+   SMALL PHONES (≤480px) - ADJUST SLIGHTLY
    ============================================= */
 
 @media (max-width: 480px) {
-    .mobile-header-title {
-        font-size: 1.1rem;
+    .main-content {
+        padding: 20px 16px !important;
     }
 
     .section-header h2 {
-        font-size: 1.1rem;
-    }
-
-    .video-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px;
-    }
-
-    .video-grid.compact {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 6px;
-    }
-
-    .video-info h3 {
-        font-size: 0.8rem;
-    }
-
-    .video-owner {
-        font-size: 0.7rem;
+        font-size: 1.5rem !important;
     }
 
     .featured-info h1 {
-        font-size: 1.25rem;
-    }
-
-    .featured-info p {
-        font-size: 0.8rem;
+        font-size: 1.75rem !important;
     }
 
     .fullscreen-player-artwork {
-        max-width: 260px;
-        max-height: 260px;
+        max-width: 280px !important;
+        max-height: 280px !important;
     }
 
-    .fullscreen-title {
-        font-size: 1.25rem;
-    }
-
-    .fullscreen-artist {
-        font-size: 0.9rem;
-    }
-
-    .bottom-nav-item {
-        font-size: 0.65rem;
-    }
-
-    .bottom-nav-item svg {
-        width: 22px;
-        height: 22px;
-    }
-
-    .modal-content {
-        padding: 20px 16px;
+    .video-grid {
+        gap: 14px !important;
     }
 }
 
 /* =============================================
-   Landscape Mode (Mobile)
+   LANDSCAPE MODE
    ============================================= */
 
 @media (max-width: 768px) and (orientation: landscape) {
     .fullscreen-player {
         flex-direction: row;
         align-items: center;
-        padding: 16px;
     }
 
     .fullscreen-player-artwork {
-        max-width: 240px;
-        max-height: 240px;
-        margin: 0 20px 0 0;
+        max-width: 260px !important;
+        max-height: 260px !important;
+        margin: 0 24px 0 0;
     }
 
     .fullscreen-player-info {
         flex: 1;
         text-align: left;
-        margin: 0;
-    }
-
-    .fullscreen-controls {
-        margin-top: 16px;
     }
 
     .featured-video {
-        min-height: 160px;
+        min-height: 200px !important;
     }
 
     .mini-player {
-        bottom: 0;
+        bottom: 0 !important;
     }
 
     .bottom-nav {
@@ -521,104 +513,54 @@
     }
 
     .main-content {
-        padding-bottom: var(--mini-player-height) !important;
+        padding-bottom: calc(var(--mini-player-height) + 16px) !important;
     }
 }
 
 /* =============================================
-   Touch-Optimized (Touch devices)
+   TOUCH OPTIMIZATION
    ============================================= */
 
 @media (hover: none) and (pointer: coarse) {
 
-    /* Larger touch targets */
-    .video-card {
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .context-menu-item {
-        min-height: 48px;
-    }
-
-    .bottom-nav-item {
-        min-height: 52px;
-        -webkit-tap-highlight-color: transparent;
-    }
-
+    /* All interactive elements minimum 44x44px */
     button,
     .mini-btn,
-    .control-btn {
-        min-width: 44px;
-        min-height: 44px;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    .btn-primary,
-    .btn-cancel {
-        min-height: 48px;
-    }
-
-    /* Prevent text selection on interactive elements */
-    .video-card,
+    .control-btn,
     .bottom-nav-item,
     .context-menu-item,
-    button {
+    .video-card {
+        -webkit-tap-highlight-color: transparent;
         -webkit-touch-callout: none;
         -webkit-user-select: none;
         user-select: none;
     }
+
+    /* Ensure minimum touch target */
+    .context-menu-item {
+        min-height: 52px !important;
+    }
+
+    .bottom-nav-item {
+        min-height: 56px !important;
+    }
 }
 
 /* =============================================
-   Tablet (481px - 768px)
+   TABLET (481px - 768px) - 3 COLUMNS
    ============================================= */
 
 @media (min-width: 481px) and (max-width: 768px) {
     .video-grid {
         grid-template-columns: repeat(3, 1fr) !important;
-        gap: 14px;
-    }
-
-    .video-grid.compact {
-        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 18px !important;
     }
 
     .season-grid {
         grid-template-columns: repeat(3, 1fr) !important;
     }
 
-    .section-header h2 {
-        font-size: 1.35rem;
-    }
-
-    .fullscreen-player-artwork {
-        max-width: 360px;
-        max-height: 360px;
-    }
-}
-
-/* =============================================
-   Safe Areas (iPhone notch, etc.)
-   ============================================= */
-
-@supports (padding: max(0px)) {
-    @media (max-width: 768px) {
-        .mobile-header {
-            padding-left: max(16px, env(safe-area-inset-left));
-            padding-right: max(16px, env(safe-area-inset-right));
-            padding-top: max(12px, env(safe-area-inset-top));
-        }
-
-        .bottom-nav {
-            padding-left: max(0px, env(safe-area-inset-left));
-            padding-right: max(0px, env(safe-area-inset-right));
-            padding-bottom: max(4px, env(safe-area-inset-bottom));
-        }
-
-        .mini-player {
-            padding-left: max(0px, env(safe-area-inset-left));
-            padding-right: max(0px, env(safe-area-inset-right));
-        }
+    .main-content {
+        padding: 28px 24px !important;
     }
 }
