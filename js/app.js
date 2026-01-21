@@ -23,6 +23,7 @@ class ProtoMusicApp {
     async init() {
         this.initNavigation();
         this.initSearch();
+        this.initMobileHeader();
         this.initSeeAllButtons();
         this.initContextMenu();
         await this.loadHomePage();
@@ -103,6 +104,36 @@ class ProtoMusicApp {
                 }
             }
         });
+    }
+
+    initMobileHeader() {
+        const mobileSearchToggle = document.getElementById('mobileSearchToggle');
+        const mobileSettingsBtn = document.getElementById('mobileSettingsBtn');
+        const searchContainer = document.getElementById('searchContainer');
+        const searchInput = document.getElementById('searchInput');
+
+        // Toggle Search
+        if (mobileSearchToggle && searchContainer) {
+            mobileSearchToggle.addEventListener('click', () => {
+                searchContainer.classList.add('show-mobile-search');
+                searchInput?.focus();
+            });
+
+            // Close search when clicking outside input (on the container background)
+            searchContainer.addEventListener('click', (e) => {
+                // Only close if clicking on the container itself (the overlay background), not the input 
+                if (e.target === searchContainer) {
+                    searchContainer.classList.remove('show-mobile-search');
+                }
+            });
+        }
+
+        // Settings Navigation
+        if (mobileSettingsBtn) {
+            mobileSettingsBtn.addEventListener('click', () => {
+                this.navigateTo('settings');
+            });
+        }
     }
 
     initSeeAllButtons() {

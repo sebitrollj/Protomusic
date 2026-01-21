@@ -216,6 +216,15 @@ class ProtoMusicPlayer {
         // Mini Player Favorite Button
         this.miniFavoriteBtn?.addEventListener('click', () => this.toggleMiniFavorite());
 
+        // Mini Player - Tap to open fullscreen (mobile)
+        this.miniPlayer?.addEventListener('click', (e) => {
+            // Don't open fullscreen if clicking on controls
+            if (e.target.closest('.mini-controls') || e.target.closest('.mini-like-btn')) {
+                return;
+            }
+            this.openFullPlayer();
+        });
+
         // Reload Queue Button
         this.reloadQueueBtn?.addEventListener('click', () => this.reloadQueue());
 

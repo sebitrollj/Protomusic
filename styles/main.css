@@ -260,6 +260,12 @@ body {
     background: var(--bg-secondary);
 }
 
+/* Mobile Header Elements - Hidden on Desktop */
+.mobile-logo,
+.mobile-actions {
+    display: none;
+}
+
 /* Page Container */
 .page-container {
     flex: 1;
@@ -2396,20 +2402,85 @@ body.ambient-mode .full-player {
         padding: 0 !important;
     }
 
-    /* Adjust header for mobile */
+    /* Header & Mobile Actions */
     .main-header {
-        padding: 10px 8px;
-        gap: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 16px !important;
+        position: relative;
+        height: 60px;
+        z-index: 50;
     }
 
+    /* Mobile Logo */
+    .mobile-logo {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-primary);
+        font-weight: 700;
+        font-size: 1.1rem;
+    }
+
+    .mobile-logo svg {
+        width: 24px;
+        height: 24px;
+        color: var(--accent-primary);
+    }
+
+    /* Mobile Actions Container */
+    .mobile-actions {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    /* Header Icons Buttons */
+    .mobile-header-btn {
+        background: transparent;
+        border: none;
+        color: var(--text-primary);
+        padding: 8px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+    }
+
+    .mobile-header-btn:active {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Search Container - Hidden by default on mobile overlay */
     .search-container {
-        flex: 1;
-        max-width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-primary);
+        z-index: 60;
+        /* Higher than header content */
+        padding: 8px 16px;
+        display: none !important;
+        /* Force hidden initially */
+        align-items: center;
+        max-width: none;
+    }
+
+    /* Create context for close button inside search container */
+    .search-container.show-mobile-search {
+        display: flex !important;
     }
 
     .search-input {
         font-size: 14px;
-        padding: 10px 16px 10px 40px;
+        padding: 10px 16px 10px 48px;
+        height: 40px;
     }
 
     /* Section headers */
