@@ -425,12 +425,7 @@ body {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 }
 
-/* Hide fullscreen queue button on desktop */
-@media (min-width: 769px) {
-    .queue-btn {
-        display: none;
-    }
-}
+
 
 .video-card {
     position: relative;
@@ -1975,4 +1970,147 @@ body.ambient-mode .full-player {
     height: 1px;
     background: rgba(255, 255, 255, 0.1);
     margin: 6px 0;
+}
+
+.context-menu-submenu {
+    padding-left: 0;
+}
+
+.context-menu-label {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    padding: 8px 14px 4px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.context-menu-empty {
+    font-size: 0.875rem;
+    color: var(--text-tertiary);
+    padding: 8px 14px;
+    font-style: italic;
+    opacity: 0.6;
+}
+
+/* =============================================
+   Modal
+   ============================================= */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10001;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    position: relative;
+    background: var(--bg-secondary);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    min-width: 400px;
+    max-width: 90%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.modal-content h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.modal-content input[type="text"] {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    margin-bottom: 24px;
+    transition: all var(--transition-fast);
+}
+
+.modal-content input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.modal-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.btn-cancel,
+.btn-primary {
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.btn-cancel {
+    background: transparent;
+    color: var(--text-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.btn-primary {
+    background: var(--accent-primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(226, 48, 134, 0.4);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Hide fullscreen queue button on desktop */
+@media (min-width: 769px) {
+    #fullQueueBtn {
+        display: none !important;
+    }
 }
