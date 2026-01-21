@@ -2267,13 +2267,18 @@ body.ambient-mode .full-player {
     /* Main content takes full width */
     .main-content {
         grid-column: 1;
-        padding: 12px 6px 100px 6px;
-        /* Minimal horizontal padding */
+        padding: 0 0 90px 0;
+        /* Zero horizontal padding */
+    }
+
+    /* Remove page-container padding */
+    .page-container {
+        padding: 0 !important;
     }
 
     /* Adjust header for mobile */
     .main-header {
-        padding: 10px 6px;
+        padding: 10px 8px;
         gap: 8px;
     }
 
