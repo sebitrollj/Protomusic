@@ -1,25 +1,23 @@
 /**
- * Mobile-specific styles for ProtoMusic PWA
+ * ProtoMusic PWA - Mobile Styles
+ * Comprehensive mobile-first responsive design
  */
 
 /* =============================================
-   Mobile Layout Adjustments
+   Mobile Base Layout (≤768px)
    ============================================= */
 
 @media (max-width: 768px) {
 
-    /* Hide desktop sidebar on mobile */
+    /* Hide desktop sidebar */
     .sidebar {
-        display: none;
+        display: none !important;
     }
 
-    /* Full width content on mobile */
+    /* Single column layout */
     .app-container {
-        grid-template-columns: 1fr;
-    }
-
-    .main-content {
-        padding: 16px;
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto 1fr auto !important;
     }
 
     /* Mobile Header */
@@ -30,19 +28,140 @@
         padding: 12px 16px;
         background: var(--bg-secondary);
         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 50;
+    }
+
+    .mobile-header-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-primary);
+    }
+
+    /* Main Content Padding */
+    .main-content {
+        padding: 16px 12px;
+        padding-bottom: calc(80px + var(--mini-player-height)) !important;
+        overflow-y: auto;
+    }
+
+    /* Content Sections */
+    .content-section {
+        margin-bottom: 24px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 0 4px;
+    }
+
+    .section-header h2 {
+        font-size: 1.25rem;
+        margin: 0;
+    }
+
+    .section-subtitle {
+        font-size: 0.875rem;
+        color: var(--text-tertiary);
+    }
+
+    /* Video Grids - Mobile Optimized */
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
+    }
+
+    .video-grid.large {
+        grid-template-columns: 1fr !important;
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px;
+    }
+
+    /* Video Cards */
+    .video-card {
+        border-radius: var(--radius-md);
+    }
+
+    .video-thumbnail {
+        border-radius: var(--radius-md);
+        aspect-ratio: 16/9;
+    }
+
+    .video-info {
+        padding: 8px 4px;
+    }
+
+    .video-info h3 {
+        font-size: 0.875rem;
+        line-height: 1.3;
+        -webkit-line-clamp: 2;
+    }
+
+    .video-owner {
+        font-size: 0.75rem;
+        margin-top: 4px;
+    }
+
+    .video-stats {
+        font-size: 0.7rem;
+        margin-top: 2px;
+    }
+
+    /* Featured Section */
+    .featured-video {
+        min-height: 180px;
+        border-radius: var(--radius-lg);
+        margin-bottom: 20px;
+    }
+
+    .featured-info {
+        padding: 20px 16px;
+    }
+
+    .featured-info h1 {
+        font-size: 1.5rem;
+        line-height: 1.3;
+    }
+
+    .featured-info p {
+        font-size: 0.875rem;
+        margin: 8px 0 16px;
+    }
+
+    .btn-play {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    /* Search Bar */
+    .search-bar {
+        margin: 0 12px 16px;
+    }
+
+    .search-bar input {
+        font-size: 1rem;
+        padding: 12px 16px 12px 44px;
     }
 
     /* Bottom Navigation */
     .bottom-nav {
-        display: flex;
+        display: flex !important;
         position: fixed;
         bottom: var(--mini-player-height);
         left: 0;
         right: 0;
         background: var(--bg-secondary);
         border-top: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 8px 0;
+        padding: 8px 0 4px;
         z-index: 100;
+        backdrop-filter: blur(10px);
     }
 
     .bottom-nav-item {
@@ -51,15 +170,28 @@
         flex-direction: column;
         align-items: center;
         gap: 4px;
-        padding: 8px 0;
+        padding: 6px 0;
         color: var(--text-secondary);
         text-decoration: none;
-        font-size: 0.75rem;
-        transition: color var(--transition-fast);
+        font-size: 0.7rem;
+        transition: all var(--transition-fast);
+        position: relative;
     }
 
     .bottom-nav-item.active {
         color: var(--accent-primary);
+    }
+
+    .bottom-nav-item.active::before {
+        content: '';
+        position: absolute;
+        top: -4px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 32px;
+        height: 3px;
+        background: var(--accent-primary);
+        border-radius: 2px;
     }
 
     .bottom-nav-item svg {
@@ -67,137 +199,426 @@
         height: 24px;
     }
 
-    /* Adjust main content for bottom nav */
-    .main-content {
-        padding-bottom: calc(60px + var(--mini-player-height));
+    /* Mini Player - Always visible on mobile */
+    .mini-player {
+        display: flex !important;
+        position: fixed;
+        bottom: 52px;
+        left: 0;
+        right: 0;
+        height: var(--mini-player-height);
+        background: var(--bg-secondary);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 99;
     }
 
-    /* Video Grid Mobile */
-    .video-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    .mini-player-content {
+        padding: 0 12px;
         gap: 12px;
     }
 
-    .video-grid.large {
-        grid-template-columns: 1fr;
+    .mini-thumbnail {
+        width: 48px;
+        height: 48px;
+        min-width: 48px;
     }
 
-    .video-grid.compact {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    .mini-now-playing {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .mini-title {
+        font-size: 0.875rem;
+    }
+
+    .mini-artist {
+        font-size: 0.75rem;
+    }
+
+    .mini-controls {
         gap: 8px;
     }
 
-    /* Section Headers */
-    .section-header h2 {
-        font-size: 1.25rem;
+    .mini-btn {
+        width: 36px;
+        height: 36px;
     }
 
-    /* Featured Video Mobile */
-    .featured-video {
-        min-height: 200px;
+    .mini-btn svg {
+        width: 20px;
+        height: 20px;
     }
 
-    .featured-info h1 {
-        font-size: 1.5rem;
-    }
-
-    /* Search Bar Mobile */
-    .search-bar {
-        margin: 0 16px 16px;
-    }
-
-    /* Mini Player Mobile */
-    .mini-player {
-        display: flex !important;
-    }
-
-    /* Hide fullscreen player on very small screens */
+    /* Fullscreen Player - Mobile optimized */
     .fullscreen-player {
-        padding: 16px;
+        padding: 20px 16px;
+        display: flex;
+        flex-direction: column;
     }
 
     .fullscreen-player-artwork {
-        max-width: 280px;
-        max-height: 280px;
+        max-width: 320px;
+        max-height: 320px;
+        margin: 20px auto;
     }
 
-    /* Modal Mobile */
-    .modal-content {
-        min-width: 90%;
-        max-width: 95%;
-        padding: 24px;
+    .fullscreen-player-info {
+        text-align: center;
+        margin: 20px 0;
     }
 
-    /* Context Menu Mobile */
-    .context-menu {
-        max-width: 90vw;
+    .fullscreen-title {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
     }
 
-    /* Settings Mobile */
-    .settings-content {
+    .fullscreen-artist {
+        font-size: 1rem;
+    }
+
+    .fullscreen-controls {
+        gap: 16px;
+        margin-top: auto;
+    }
+
+    .control-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .control-btn.play-btn {
+        width: 64px;
+        height: 64px;
+    }
+
+    /* Queue Panel */
+    .queue-panel {
+        width: 100% !important;
+        right: 0;
+        left: 0;
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    .queue-header {
         padding: 16px;
+    }
+
+    .queue-content {
+        padding: 0 16px 16px;
+    }
+
+    /* Settings */
+    .settings-content {
+        padding: 12px;
     }
 
     .settings-group {
-        padding: 16px;
+        padding: 16px 12px;
+        margin-bottom: 12px;
     }
-}
 
-/* Extra small devices */
-@media (max-width: 480px) {
-    .video-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    .settings-group h3 {
+        font-size: 1rem;
+        margin-bottom: 12px;
+    }
+
+    .setting-item {
+        padding: 12px 0;
+    }
+
+    /* Modals */
+    .modal-content {
+        min-width: 90%;
+        max-width: 95%;
+        padding: 24px 20px;
+        margin: 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+    }
+
+    .modal-content input[type="text"] {
+        font-size: 1rem;
+        padding: 12px 14px;
+    }
+
+    .modal-actions {
+        flex-direction: row;
+        gap: 10px;
+    }
+
+    .btn-cancel,
+    .btn-primary {
+        flex: 1;
+        padding: 12px 16px;
+    }
+
+    /* Context Menu */
+    .context-menu {
+        max-width: calc(100vw - 32px);
+        min-width: 240px;
+    }
+
+    .context-menu-item {
+        padding: 14px 16px;
+        font-size: 0.95rem;
+    }
+
+    .context-menu-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* Kikiskothèque Grid */
+    .season-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px;
+    }
+
+    .season-grid.compact {
+        grid-template-columns: repeat(3, 1fr) !important;
         gap: 8px;
     }
 
-    .featured-info h1 {
-        font-size: 1.25rem;
+    .season-card {
+        border-radius: var(--radius-md);
+    }
+
+    /* View mode toggle */
+    .view-toggle-btn {
+        width: 36px;
+        height: 36px;
+    }
+
+    /* Empty States */
+    .empty-state {
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .empty-state svg {
+        width: 48px;
+        height: 48px;
+        margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .empty-state p {
+        font-size: 0.875rem;
+    }
+}
+
+/* =============================================
+   Small Phones (≤480px)
+   ============================================= */
+
+@media (max-width: 480px) {
+    .mobile-header-title {
+        font-size: 1.1rem;
     }
 
     .section-header h2 {
         font-size: 1.1rem;
     }
 
-    .fullscreen-player-artwork {
-        max-width: 240px;
-        max-height: 240px;
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px;
     }
 
-    .modal-content {
-        padding: 20px;
+    .video-grid.compact {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 6px;
     }
 
-    .modal-content h2 {
+    .video-info h3 {
+        font-size: 0.8rem;
+    }
+
+    .video-owner {
+        font-size: 0.7rem;
+    }
+
+    .featured-info h1 {
         font-size: 1.25rem;
     }
-}
 
-/* Landscape mode adjustments */
-@media (max-width: 768px) and (orientation: landscape) {
+    .featured-info p {
+        font-size: 0.8rem;
+    }
+
     .fullscreen-player-artwork {
-        max-height: 200px;
+        max-width: 260px;
+        max-height: 260px;
     }
 
-    .mini-player {
-        height: 60px;
+    .fullscreen-title {
+        font-size: 1.25rem;
     }
-}
 
-/* Touch-friendly adjustments */
-@media (hover: none) and (pointer: coarse) {
-
-    /* Larger touch targets */
-    .context-menu-item {
-        min-height: 44px;
+    .fullscreen-artist {
+        font-size: 0.9rem;
     }
 
     .bottom-nav-item {
+        font-size: 0.65rem;
+    }
+
+    .bottom-nav-item svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .modal-content {
+        padding: 20px 16px;
+    }
+}
+
+/* =============================================
+   Landscape Mode (Mobile)
+   ============================================= */
+
+@media (max-width: 768px) and (orientation: landscape) {
+    .fullscreen-player {
+        flex-direction: row;
+        align-items: center;
+        padding: 16px;
+    }
+
+    .fullscreen-player-artwork {
+        max-width: 240px;
+        max-height: 240px;
+        margin: 0 20px 0 0;
+    }
+
+    .fullscreen-player-info {
+        flex: 1;
+        text-align: left;
+        margin: 0;
+    }
+
+    .fullscreen-controls {
+        margin-top: 16px;
+    }
+
+    .featured-video {
+        min-height: 160px;
+    }
+
+    .mini-player {
+        bottom: 0;
+    }
+
+    .bottom-nav {
+        display: none !important;
+    }
+
+    .main-content {
+        padding-bottom: var(--mini-player-height) !important;
+    }
+}
+
+/* =============================================
+   Touch-Optimized (Touch devices)
+   ============================================= */
+
+@media (hover: none) and (pointer: coarse) {
+
+    /* Larger touch targets */
+    .video-card {
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .context-menu-item {
         min-height: 48px;
     }
 
+    .bottom-nav-item {
+        min-height: 52px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
     button,
-    .mini-btn {
+    .mini-btn,
+    .control-btn {
         min-width: 44px;
         min-height: 44px;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-primary,
+    .btn-cancel {
+        min-height: 48px;
+    }
+
+    /* Prevent text selection on interactive elements */
+    .video-card,
+    .bottom-nav-item,
+    .context-menu-item,
+    button {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+    }
+}
+
+/* =============================================
+   Tablet (481px - 768px)
+   ============================================= */
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .video-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 14px;
+    }
+
+    .video-grid.compact {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+
+    .season-grid {
+        grid-template-columns: repeat(3, 1fr) !important;
+    }
+
+    .section-header h2 {
+        font-size: 1.35rem;
+    }
+
+    .fullscreen-player-artwork {
+        max-width: 360px;
+        max-height: 360px;
+    }
+}
+
+/* =============================================
+   Safe Areas (iPhone notch, etc.)
+   ============================================= */
+
+@supports (padding: max(0px)) {
+    @media (max-width: 768px) {
+        .mobile-header {
+            padding-left: max(16px, env(safe-area-inset-left));
+            padding-right: max(16px, env(safe-area-inset-right));
+            padding-top: max(12px, env(safe-area-inset-top));
+        }
+
+        .bottom-nav {
+            padding-left: max(0px, env(safe-area-inset-left));
+            padding-right: max(0px, env(safe-area-inset-right));
+            padding-bottom: max(4px, env(safe-area-inset-bottom));
+        }
+
+        .mini-player {
+            padding-left: max(0px, env(safe-area-inset-left));
+            padding-right: max(0px, env(safe-area-inset-right));
+        }
     }
 }
