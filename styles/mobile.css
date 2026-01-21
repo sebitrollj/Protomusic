@@ -20,10 +20,10 @@
         grid-template-rows: auto 1fr auto auto !important;
     }
 
-    /* Main Content - GENEROUS PADDING */
+    /* Main Content - VERY GENEROUS PADDING */
     .main-content {
-        padding: 24px !important;
-        /* Increased from 16px */
+        padding: 32px 20px !important;
+        /* Increased even more */
         padding-bottom: calc(80px + var(--mini-player-height)) !important;
         overflow-y: auto;
         width: 100%;
@@ -84,32 +84,34 @@
     /* ==================== SPACING SYSTEM - MORE BREATHING ROOM ==================== */
 
     .content-section {
-        margin-bottom: 40px !important;
-        /* Increased from 24px */
+        margin-bottom: 56px !important;
+        /* Increased from 40px */
     }
 
     .section-header {
-        margin-bottom: 20px !important;
-        /* Increased from 16px */
+        margin-bottom: 24px !important;
+        /* Increased from 20px */
         padding: 0;
     }
 
-    /* Video Grid - GENEROUS GAPS */
+    /* Video Grid - VERY GENEROUS GAPS */
     .video-grid {
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 16px !important;
-        /* Increased from 12px */
+        gap: 20px !important;
+        /* Increased from 16px */
     }
 
     .video-grid.large {
         grid-template-columns: 1fr !important;
-        gap: 20px !important;
+        gap: 24px !important;
+        /* Increased from 20px */
     }
 
     .video-grid.compact {
         grid-template-columns: repeat(2, 1fr) !important;
         /* Keep 2 cols even in compact */
-        gap: 12px !important;
+        gap: 16px !important;
+        /* Increased from 12px */
     }
 
     /* Video Cards - MORE PADDING */
@@ -145,14 +147,17 @@
         backdrop-filter: blur(10px);
         padding: 12px 16px !important;
         /* Generous padding */
+        flex-direction: row;
     }
 
     .mini-player-content {
         display: flex;
+        flex-direction: row;
         align-items: center;
-        gap: 16px !important;
-        /* Increased from 12px */
+        justify-content: space-between;
+        gap: 12px !important;
         width: 100%;
+        padding: 0;
     }
 
     /* Larger thumbnail */
@@ -177,7 +182,8 @@
         min-width: 0;
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 2px;
+        overflow: hidden;
     }
 
     .mini-title {
@@ -195,8 +201,9 @@
     /* Larger play button */
     .mini-controls {
         display: flex;
-        gap: 12px !important;
+        gap: 8px !important;
         align-items: center;
+        flex-shrink: 0;
     }
 
     .mini-btn {
@@ -364,6 +371,15 @@
     }
 
     /* ==================== MODALS & PANELS ==================== */
+
+    /* Don't override button styles */
+    .load-more-btn {
+        display: block;
+        margin: 0 auto;
+        min-width: 200px;
+        padding: 14px 32px !important;
+        font-size: 1rem !important;
+    }
 
     .modal-content {
         min-width: 90%;
