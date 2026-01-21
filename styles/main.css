@@ -2250,8 +2250,128 @@ body.ambient-mode .full-player {
    MOBILE LAYOUT FIXES
    ============================================= */
 
-/* Hide sidebar on mobile, use bottom nav instead */
+/* ===== MINI-PLAYER MOBILE (YouTube Music Style) ===== */
 @media (max-width: 768px) {
+
+    /* Ensure fullscreen overlay is above everything */
+    .full-player-overlay {
+        z-index: 10000 !important;
+    }
+
+    /* 1. Mini-Player - Fixed at bottom (above bottom-nav) */
+    .mini-player {
+        position: fixed !important;
+        bottom: 90px;
+        /* Above bottom navigation */
+        left: 0;
+        right: 0;
+        height: 72px;
+        z-index: 101;
+        /* Above bottom-nav */
+        background: var(--bg-secondary);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* 2. Mini-Player Content - Grid Layout */
+    .mini-player-content {
+        display: grid !important;
+        grid-template-columns: 56px 1fr auto;
+        align-items: center;
+        padding: 10px 12px !important;
+        gap: 12px !important;
+        height: 100%;
+        overflow: visible !important;
+    }
+
+    /* 3. Thumbnail */
+    .mini-thumbnail {
+        width: 52px !important;
+        height: 52px !important;
+        border-radius: var(--radius-md);
+        flex-shrink: 0;
+        order: 1;
+    }
+
+    /* 4. Now Playing Info */
+    .mini-now-playing {
+        order: 2;
+        flex: none !important;
+        overflow: hidden;
+    }
+
+    .mini-title {
+        font-size: 0.9rem;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 2px;
+    }
+
+    .mini-artist {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* 5. Controls - Simplified to Play/Pause only */
+    .mini-like-btn {
+        display: none !important;
+        /* Hide heart button on mobile */
+    }
+
+    .mini-controls {
+        position: static !important;
+        transform: none !important;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        order: 3;
+        gap: 8px !important;
+    }
+
+    /* Hide prev button only (keep play/pause and next like YouTube Music) */
+    .mini-controls #prevBtn {
+        display: none !important;
+    }
+
+    .mini-controls #nextBtn {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+    /* Play button - centered */
+    .mini-controls #playPauseBtn {
+        width: 48px !important;
+        height: 48px !important;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+    }
+
+    .mini-controls #playPauseBtn:active {
+        background: rgba(255, 255, 255, 0.2);
+    }
+
+    /* 6. Hide time/volume on mobile mini-player */
+    .mini-time-volume {
+        display: none !important;
+    }
+
+    /* 7. Progress Bar - Thin bar at bottom */
+    .mini-progress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Hide sidebar on mobile, use bottom nav instead */
 
     /* Hide desktop sidebar */
     .sidebar {
@@ -2267,8 +2387,8 @@ body.ambient-mode .full-player {
     /* Main content takes full width */
     .main-content {
         grid-column: 1;
-        padding: 0 0 90px 0;
-        /* Zero horizontal padding */
+        padding: 0 0 162px 0 !important;
+        /* Bottom padding: mini-player (72px) + bottom-nav (90px) = 162px */
     }
 
     /* Remove page-container padding */
