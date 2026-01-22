@@ -12,6 +12,7 @@ class ProtoMusicApp {
         this.kikisLimit = 30;
         this.loadedVideos = new Set();
         this.kikisLoadedVideos = new Set();
+        this.videoCache = new Map(); // Cache for search fallback
         this.favorites = this.loadFavorites();
         this.contextMenu = null;
         this.contextMenuVideo = null;
@@ -224,8 +225,25 @@ class ProtoMusicApp {
     async performSearch(query) {
         try {
             const result = await api.search(query);
+            let videos = [];
 
             if (result.success && result.videos && result.videos.length > 0) {
+                videos = result.videos;
+            } else {
+                // Fallback: Search in local video cache
+                console.log('Search API returned no results, trying local cache...');
+                const normalizedQuery = query.toLowerCase();
+                videos = Array.from(this.videoCache.values()).filter(v => {
+                    const title = (v.title || '').toLowerCase();
+                    const artist = (v.owner_name || '').toLowerCase();
+                    const season = (v.season_name || '').toLowerCase();
+                    return title.includes(normalizedQuery) ||
+                        artist.includes(normalizedQuery) ||
+                        season.includes(normalizedQuery);
+                });
+            }
+
+            if (videos.length > 0) {
                 // Navigate to explore page and show results
                 this.navigateTo('explore');
 
@@ -234,7 +252,7 @@ class ProtoMusicApp {
 
                 if (grid) {
                     grid.innerHTML = '';
-                    result.videos.forEach(video => {
+                    videos.forEach(video => {
                         grid.appendChild(this.createVideoCard(video));
                     });
                 }
@@ -728,6 +746,10 @@ class ProtoMusicApp {
     }
 
     createVideoCard(video, style = 'grid') {
+        // Cache video for search fallback
+        if (video && video.video_id) {
+            this.videoCache.set(video.video_id, video);
+        }
         const card = document.createElement('div');
         card.className = style === 'list' ? 'list-video-card' : 'video-card';
         card.dataset.videoId = video.video_id;
