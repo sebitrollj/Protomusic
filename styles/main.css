@@ -2391,10 +2391,9 @@ body.ambient-mode .full-player {
     }
 
     /* Main content takes full width */
+    /* Main content takes full width */
     .main-content {
-        grid-column: 1;
-        padding: 0 0 162px 0 !important;
-        /* Bottom padding: mini-player (72px) + bottom-nav (90px) = 162px */
+        /* User requested removal of padding and grid-column */
     }
 
     /* Remove page-container padding */
@@ -2733,6 +2732,52 @@ body.ambient-mode .full-player {
     /* 10. Hide queue button on mobile */
     #fullQueueBtn {
         display: none !important;
+    }
+
+    /* Settings Page Mobile Optimizations */
+    .settings-page {
+        padding: 8px 8px 120px 8px !important;
+    }
+
+    .settings-group {
+        padding: 16px;
+        margin-bottom: 12px;
+    }
+
+    .settings-group-title {
+        font-size: 1rem;
+        margin-bottom: 12px;
+        padding-bottom: 12px;
+    }
+
+    /* Force Theme Buttons to row */
+    .theme-toggle-group {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .theme-btn {
+        padding: 10px 4px;
+        font-size: 0.75rem;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .theme-btn svg {
+        font-size: 1.2rem;
+    }
+
+    /* Color Picker sizing */
+    .color-picker-group {
+        gap: 10px;
+        grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+    }
+
+    .color-btn {
+        width: 42px;
+        height: 42px;
     }
 
     /* 11. CRITICAL: Hide mini-player when fullscreen active */
