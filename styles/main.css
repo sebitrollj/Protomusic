@@ -2259,6 +2259,19 @@ body.ambient-mode .full-player {
 /* ===== MINI-PLAYER MOBILE (YouTube Music Style) ===== */
 @media (max-width: 768px) {
 
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    *::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    * {
+        -ms-overflow-style: none;
+        /* IE and Edge */
+        scrollbar-width: none;
+        /* Firefox */
+    }
+
     /* Ensure fullscreen overlay is above everything */
     .full-player-overlay {
         z-index: 10000 !important;
