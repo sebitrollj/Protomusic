@@ -768,8 +768,21 @@ class ProtoMusicApp {
         const duration = video.duration || '0:00';
         const views = video.views ? `${video.views} vues` : '';
 
-        // Always use proxy for thumbnails (ignore API thumbnails which are relative URLs)
-        const thumbnailUrl = api.getThumbnailUrl(video.video_id);
+        // Determine thumbnail URL: Prefer manual/API provided thumbnail, fallback to auto
+        let thumbnailUrl;
+        if (video.thumbnail && video.thumbnail.trim() !== '') {
+            if (video.thumbnail.startsWith('http')) {
+                thumbnailUrl = video.thumbnail;
+            } else {
+                // Prepend base URL for relative paths via public API access
+                const baseUrl = (window.api && window.api.baseUrl) || 'https://protomusic-proxy.onrender.com';
+                const path = video.thumbnail.startsWith('/') ? video.thumbnail : '/' + video.thumbnail;
+                thumbnailUrl = `${baseUrl}${path}`;
+            }
+        } else {
+            // Fallback to proxy generated thumbnail
+            thumbnailUrl = api.getThumbnailUrl(video.video_id);
+        }
 
         card.innerHTML = `
             <div class="video-thumbnail">

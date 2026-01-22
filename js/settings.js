@@ -17,8 +17,9 @@ class SettingsManager {
             glassIntensity: 30,
             neonGlow: false,
             animations: true,
-            aurora: false,
-            ambientBackground: false,
+            auroraEffect: false,
+            ambientMode: false,
+            immersivePlayer: false, // New setting
             visualizer: false,
             autoplay: true,
             maxQueueSize: 50,
@@ -38,6 +39,12 @@ class SettingsManager {
 
     saveSettings() {
         localStorage.setItem('protomusic_settings', JSON.stringify(this.settings));
+    }
+
+    updateSetting(key, value) {
+        this.settings[key] = value;
+        this.saveSettings();
+        this.applySettings();
     }
 
     init() {
@@ -65,8 +72,26 @@ class SettingsManager {
         root.style.setProperty('--accent-rgb', `${rgb.r}, ${rgb.g}, ${rgb.b}`);
 
         // Theme
-        body.classList.remove('theme-dark', 'theme-light', 'theme-midnight');
+        body.classList.remove('theme-dark', 'theme-light', 'theme-midnight', 'theme-colored');
         body.classList.add(`theme-${this.settings.theme}`);
+
+        // Dynamic Background for Colored Theme
+        if (this.settings.theme === 'colored') {
+            const bgPrimary = this.adjustBrightness(this.settings.accentColor, -85);
+            const bgSecondary = this.adjustBrightness(this.settings.accentColor, -80);
+            const bgTertiary = this.adjustBrightness(this.settings.accentColor, -75);
+
+            root.style.setProperty('--bg-primary', bgPrimary);
+            root.style.setProperty('--bg-secondary', bgSecondary);
+            root.style.setProperty('--bg-tertiary', bgTertiary);
+            root.style.setProperty('--bg-hover', this.adjustBrightness(this.settings.accentColor, -65));
+        } else {
+            // Reset to allow CSS classes to take over
+            root.style.removeProperty('--bg-primary');
+            root.style.removeProperty('--bg-secondary');
+            root.style.removeProperty('--bg-tertiary');
+            root.style.removeProperty('--bg-hover');
+        }
 
         // Glassmorphism
         const glassOpacity = 1 - (this.settings.glassIntensity / 200);
@@ -84,7 +109,21 @@ class SettingsManager {
         // Aurora
         const aurora = document.getElementById('auroraBg');
         if (aurora) {
-            aurora.classList.toggle('active', this.settings.aurora);
+            aurora.classList.toggle('active', this.settings.auroraEffect);
+        }
+
+        // Ambient Mode
+        if (this.settings.ambientMode) {
+            document.body.classList.add('ambient-mode-active');
+        } else {
+            document.body.classList.remove('ambient-mode-active');
+        }
+
+        // Immersive Player
+        if (this.settings.immersivePlayer) {
+            document.body.classList.add('immersive-player-active');
+        } else {
+            document.body.classList.remove('immersive-player-active');
         }
 
         // Particles
@@ -148,10 +187,11 @@ class SettingsManager {
             'particlesToggle': 'particles',
             'neonGlowToggle': 'neonGlow',
             'animationsToggle': 'animations',
-            'auroraToggle': 'aurora',
-            'ambientModeToggle': 'ambientBackground',
+            'auroraToggle': 'auroraEffect', // Renamed
+            'ambientModeToggle': 'ambientMode', // Renamed
             'visualizerToggle': 'visualizer',
-            'autoplayToggle': 'autoplay'
+            'autoplayToggle': 'autoplay',
+            'immersivePlayerToggle': 'immersivePlayer' // New toggle
         };
 
         Object.entries(toggleMap).forEach(([id, setting]) => {
@@ -165,7 +205,7 @@ class SettingsManager {
                     this.saveSettings();
 
                     // Special handling for ambient background
-                    if (setting === 'ambientBackground') {
+                    if (setting === 'ambientMode') {
                         if (toggle.checked && window.app) {
                             // Re-load featured to apply color
                             app.loadFeatured();

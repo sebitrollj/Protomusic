@@ -1380,7 +1380,7 @@ body.ambient-mode .full-player {
 /* Theme Toggle */
 .theme-toggle-group {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     background: rgba(0, 0, 0, 0.2);
     padding: 8px;
@@ -2423,6 +2423,10 @@ body.ambient-mode .full-player {
         position: relative;
         height: 60px;
         z-index: 50;
+        /* Glassmorphism to show global effects */
+        background: rgba(15, 15, 15, 0.7) !important;
+        backdrop-filter: blur(12px) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     /* Mobile Logo */
@@ -2822,8 +2826,28 @@ body.ambient-mode .full-player {
         filter: grayscale(1);
     }
 
+    /* Hide redundant Minimize button on mobile (use swipe down instead) */
+    .minimize-player-btn,
+    #minimizePlayerBtn {
+        display: none !important;
+    }
+
     /* 11. CRITICAL: Hide mini-player when fullscreen active */
     body:has(.full-player-overlay:not(.hidden)) .mini-player {
         display: none !important;
+    }
+
+    /* Immersive Player Mode */
+    body.immersive-player-active .full-player-overlay,
+    body.immersive-player-active .full-player,
+    body.immersive-player-active .main-content {
+        background: transparent !important;
+        background-color: rgba(0, 0, 0, 0.45) !important;
+        backdrop-filter: blur(24px) !important;
+        -webkit-backdrop-filter: blur(24px) !important;
+    }
+
+    body.immersive-player-active .full-player-info {
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     }
 }
