@@ -2484,6 +2484,12 @@ body.ambient-mode .full-player {
         max-width: none;
     }
 
+    /* Adjust Icon Position on Mobile to preventing clipping */
+    .search-container .search-icon {
+        left: 28px !important;
+        /* Push icon right from container padding */
+    }
+
     /* Create context for close button inside search container */
     .search-container.show-mobile-search {
         display: flex !important;
@@ -2491,8 +2497,18 @@ body.ambient-mode .full-player {
 
     .search-input {
         font-size: 14px;
-        padding: 10px 16px 10px 48px;
+        padding: 10px 16px 10px 52px !important;
+        /* Increased padding-left for icon */
         height: 40px;
+    }
+
+    /* Force 2-Column Grid on Mobile for Video Grids (Home, Explore, Search) */
+    .video-grid,
+    #exploreGrid,
+    #kikiskothequeGrid,
+    #searchResultsGrid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
     }
 
     /* Section headers */
@@ -2791,6 +2807,19 @@ body.ambient-mode .full-player {
     .color-btn {
         width: 42px;
         height: 42px;
+    }
+
+    /* Fix Settings Colors & Consistency */
+    .settings-group {
+        background: #1e1e1e !important;
+        backdrop-filter: none !important;
+    }
+
+    /* Disable Discord RPC on Mobile */
+    .setting-item:has(#discordRpcToggle) {
+        opacity: 0.5;
+        pointer-events: none;
+        filter: grayscale(1);
     }
 
     /* 11. CRITICAL: Hide mini-player when fullscreen active */

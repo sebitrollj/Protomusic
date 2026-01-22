@@ -127,6 +127,16 @@ class ProtoMusicApp {
                     searchContainer.classList.remove('show-mobile-search');
                 }
             });
+
+            // GLOBAL: Close search when clicking anywhere on the page (outside container & button)
+            document.addEventListener('click', (e) => {
+                const isClickInside = searchContainer.contains(e.target);
+                const isClickOnToggle = mobileSearchToggle.contains(e.target);
+
+                if (!isClickInside && !isClickOnToggle && searchContainer.classList.contains('show-mobile-search')) {
+                    searchContainer.classList.remove('show-mobile-search');
+                }
+            });
         }
 
         // Settings Navigation
