@@ -17,9 +17,8 @@ class SettingsManager {
             glassIntensity: 30,
             neonGlow: false,
             animations: true,
-            auroraEffect: false,
-            ambientMode: false,
-            immersivePlayer: false, // New setting
+            aurora: false,
+            ambientBackground: false,
             visualizer: false,
             autoplay: true,
             maxQueueSize: 50,
@@ -39,12 +38,6 @@ class SettingsManager {
 
     saveSettings() {
         localStorage.setItem('protomusic_settings', JSON.stringify(this.settings));
-    }
-
-    updateSetting(key, value) {
-        this.settings[key] = value;
-        this.saveSettings();
-        this.applySettings();
     }
 
     init() {
@@ -109,21 +102,7 @@ class SettingsManager {
         // Aurora
         const aurora = document.getElementById('auroraBg');
         if (aurora) {
-            aurora.classList.toggle('active', this.settings.auroraEffect);
-        }
-
-        // Ambient Mode
-        if (this.settings.ambientMode) {
-            document.body.classList.add('ambient-mode-active');
-        } else {
-            document.body.classList.remove('ambient-mode-active');
-        }
-
-        // Immersive Player
-        if (this.settings.immersivePlayer) {
-            document.body.classList.add('immersive-player-active');
-        } else {
-            document.body.classList.remove('immersive-player-active');
+            aurora.classList.toggle('active', this.settings.aurora);
         }
 
         // Particles
@@ -187,11 +166,10 @@ class SettingsManager {
             'particlesToggle': 'particles',
             'neonGlowToggle': 'neonGlow',
             'animationsToggle': 'animations',
-            'auroraToggle': 'auroraEffect', // Renamed
-            'ambientModeToggle': 'ambientMode', // Renamed
+            'auroraToggle': 'aurora',
+            'ambientModeToggle': 'ambientBackground',
             'visualizerToggle': 'visualizer',
-            'autoplayToggle': 'autoplay',
-            'immersivePlayerToggle': 'immersivePlayer' // New toggle
+            'autoplayToggle': 'autoplay'
         };
 
         Object.entries(toggleMap).forEach(([id, setting]) => {
@@ -205,7 +183,7 @@ class SettingsManager {
                     this.saveSettings();
 
                     // Special handling for ambient background
-                    if (setting === 'ambientMode') {
+                    if (setting === 'ambientBackground') {
                         if (toggle.checked && window.app) {
                             // Re-load featured to apply color
                             app.loadFeatured();

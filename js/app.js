@@ -518,122 +518,30 @@ class ProtoMusicApp {
         }
     }
 
-    loadLibraryPage(view = 'root') {
-        const page = document.querySelector('[data-page="library"]');
-        if (!page) return;
-
-        const grid = page.querySelector('.video-grid');
-        const emptyState = page.querySelector('.empty-state');
-        const headerTitle = page.querySelector('.section-header h2');
+    async loadLibraryPage() {
+        const grid = document.querySelector('[data-page="library"] .video-grid');
+        const emptyState = document.querySelector('[data-page="library"] .empty-state');
 
         if (!grid) return;
 
-        // Reset state
+        // Get ALL favorites from Map (already contains full video objects)
+        const favoriteVideos = Array.from(this.favorites.values());
+
         grid.innerHTML = '';
+
+        if (favoriteVideos.length === 0) {
+            if (emptyState) emptyState.classList.remove('hidden');
+            grid.style.display = 'none';
+            return;
+        }
+
         if (emptyState) emptyState.classList.add('hidden');
         grid.style.display = 'grid';
 
-        if (view === 'root') {
-            // Playlist List View
-            if (headerTitle) headerTitle.textContent = '📚 Bibliothèque';
-
-            // Render Favorites Playlist Card
-            this.renderPlaylistCard(grid, 'favorites');
-
-            // Future: Add other playlists here
-        } else if (view === 'favorites') {
-            // Favorites Content View
-            if (headerTitle) {
-                headerTitle.innerHTML = `
-                    <button class="back-btn" id="backToLibRoot">
-                        <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px;">
-                            <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/>
-                        </svg>
-                    </button> 
-                    ❤️ Favoris
-                `;
-
-                // Bind back button
-                setTimeout(() => {
-                    document.getElementById('backToLibRoot')?.addEventListener('click', () => {
-                        this.loadLibraryPage('root');
-                    });
-                }, 0);
-            }
-
-            const favoriteVideos = Array.from(this.favorites.values());
-
-            if (favoriteVideos.length === 0) {
-                if (emptyState) {
-                    emptyState.classList.remove('hidden');
-                    // Reset empty state text if needed, or leave default
-                }
-                grid.style.display = 'none';
-            } else {
-                // Determine layout based on toggle (grid or list) if applicable, 
-                // but for now standard video card
-                favoriteVideos.reverse().forEach(video => { // Show newest first
-                    grid.appendChild(this.createVideoCard(video));
-                });
-            }
-        }
-    }
-
-    renderPlaylistCard(container, type) {
-        const card = document.createElement('div');
-        card.className = 'playlist-card'; // Reuse video-card styles via CSS or specific class
-
-        let title, count, thumbUrl;
-
-        if (type === 'favorites') {
-            title = 'Favoris';
-            count = this.favorites.size;
-            // Get most recent favorite for thumbnail
-            const lastFav = Array.from(this.favorites.values()).pop();
-
-            if (lastFav) {
-                if (lastFav.thumbnail && lastFav.thumbnail.startsWith('http')) {
-                    thumbUrl = lastFav.thumbnail;
-                } else if (lastFav.thumbnail) {
-                    const baseUrl = (window.api && window.api.baseUrl) || 'https://protomusic-proxy.onrender.com';
-                    thumbUrl = `${baseUrl}${lastFav.thumbnail.startsWith('/') ? lastFav.thumbnail : '/' + lastFav.thumbnail}`;
-                } else {
-                    thumbUrl = api.getThumbnailUrl(lastFav.video_id);
-                }
-            } else {
-                thumbUrl = ''; // CSS will handle placeholder
-            }
-        }
-
-        card.innerHTML = `
-            <div class="playlist-thumbnail">
-                ${thumbUrl ? `<img src="${thumbUrl}" alt="${title}" loading="lazy">` : '<div class="playlist-placeholder">❤️</div>'}
-                <div class="playlist-overlay">
-                    <span class="playlist-count">${count} vidéos</span>
-                     <div class="playlist-play-icon">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M8 5v14l11-7z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-            <div class="playlist-info">
-                <h3 class="playlist-title">${title}</h3>
-                <span class="playlist-meta">Playlist automatique</span>
-            </div>
-        `;
-
-        card.addEventListener('click', () => {
-            this.loadLibraryPage(type);
+        // Render each favorite video - no API calls needed!
+        favoriteVideos.forEach(video => {
+            grid.appendChild(this.createVideoCard(video));
         });
-
-        // Setup image retry if image exists
-        const img = card.querySelector('img');
-        if (img && thumbUrl && window.imageRetry) {
-            imageRetry.setupRetry(img, thumbUrl);
-        }
-
-        container.appendChild(card);
     }
 
     loadHistoryPage() {
@@ -1310,13 +1218,4 @@ class ProtoMusicApp {
 let app;
 document.addEventListener('DOMContentLoaded', () => {
     app = new ProtoMusicApp();
-
-    // Register PWA Service Worker for standalone installation
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-                .then(registration => console.log('✅ ServiceWorker registered: ', registration.scope))
-                .catch(err => console.log('❌ ServiceWorker registration failed: ', err));
-        });
-    }
 });
