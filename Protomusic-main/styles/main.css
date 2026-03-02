@@ -1149,7 +1149,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     gap: 32px;
@@ -1158,10 +1158,22 @@ body {
 .video-container {
     width: 100%;
     aspect-ratio: 16 / 9;
-    max-height: 50vh;
+    max-height: 65vh;
     background: #000;
     border-radius: var(--radius-xl);
     overflow: hidden;
+    position: relative;
+}
+
+.video-thumb-cover {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 5;
+    display: none;
+    border-radius: var(--radius-xl);
 }
 
 .video-container video {
