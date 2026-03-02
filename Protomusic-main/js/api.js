@@ -3,8 +3,8 @@
  * Using Render proxy to avoid CORS
  */
 
-const API_BASE = 'https://protomusic-proxy.onrender.com';
-const API_XHR = '/api';
+const API_BASE = 'https://music.sebitroll.net';
+const API_XHR = '/api/v1';
 
 class ProtoMusicAPI {
     constructor() {
@@ -149,24 +149,11 @@ class ProtoMusicAPI {
     }
 
     async trackView(videoId) {
-        try {
-            // trackView expects a POST request and needs the videoId to know what to track
-            return await this.request('/media/trackView.php', {
-                method: 'POST',
-                body: JSON.stringify({ video_id: videoId })
-            });
-        } catch (e) {
-            console.warn('[API] trackView failed silently:', e.message);
-            return { success: false };
-        }
+        return this.request('/media/trackView.php');
     }
 
     getThumbnailUrl(videoId) {
         return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
-    }
-
-    getHighResThumbnailUrl(videoId) {
-        return `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
     }
 
     getStreamUrl(videoId) {

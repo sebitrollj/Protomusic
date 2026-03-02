@@ -767,7 +767,7 @@ class ProtoMusicPlayer {
                     cover.className = 'video-thumb-cover';
                     videoContainer.appendChild(cover);
                 }
-                const thumbUrl = this.currentVideo ? (this.currentVideo.thumbnail || api.getHighResThumbnailUrl(this.currentVideo.video_id)) : '';
+                const thumbUrl = this.currentVideo ? (this.currentVideo.thumbnail || api.getThumbnailUrl(this.currentVideo.video_id)) : '';
                 cover.style.backgroundImage = `url("${thumbUrl}")`;
                 cover.style.display = 'flex';
             } else {
@@ -845,12 +845,6 @@ class ProtoMusicPlayer {
 
     showLoading() {
         // Add loading indicator
-        this.isLoading = true;
-    }
-
-    hideLoading() {
-        // Remove loading indicator
-        this.isLoading = false;
     }
 
     formatTime(seconds) {
