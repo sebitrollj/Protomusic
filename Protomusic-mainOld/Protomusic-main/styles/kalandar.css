@@ -1,0 +1,55 @@
+/* Kalandar Highlight Style in Kikiskothèque */
+.season-card.kalandar-highlight {
+    border: 2px solid #FFD700;
+    /* Gold border */
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(30, 30, 30, 0.8) 100%);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.season-card.kalandar-highlight:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.25);
+    border-color: #FFF;
+}
+
+.season-card.kalandar-highlight .season-thumbnail {
+    color: #FFD700;
+    /* Gold icon */
+}
+
+.season-card.kalandar-highlight .season-title {
+    color: #FFD700;
+    text-shadow: 0 2px 10px rgba(255, 215, 0, 0.3);
+}
+
+.season-card.kalandar-highlight::before {
+    content: '★';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #FFD700;
+    opacity: 0.8;
+    z-index: 2;
+    animation: pulse-gold 2s infinite;
+}
+
+@keyframes pulse-gold {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
