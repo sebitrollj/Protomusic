@@ -845,6 +845,12 @@ class ProtoMusicPlayer {
 
     showLoading() {
         // Add loading indicator
+        this.isLoading = true;
+    }
+
+    hideLoading() {
+        // Remove loading indicator
+        this.isLoading = false;
     }
 
     formatTime(seconds) {

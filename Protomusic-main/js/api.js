@@ -149,7 +149,16 @@ class ProtoMusicAPI {
     }
 
     async trackView(videoId) {
-        return this.request('/media/trackView.php');
+        try {
+            // trackView expects a POST request and needs the videoId to know what to track
+            return await this.request('/media/trackView.php', {
+                method: 'POST',
+                body: JSON.stringify({ video_id: videoId })
+            });
+        } catch (e) {
+            console.warn('[API] trackView failed silently:', e.message);
+            return { success: false };
+        }
     }
 
     getThumbnailUrl(videoId) {
