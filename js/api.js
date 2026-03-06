@@ -77,9 +77,11 @@ class ProtoMusicAPI {
 
             if (data && data.success && data.seasons && data.seasons.length > 0) {
                 const seriesList = data.seasons.map(season => ({
-                    series_id: season.series_id,
-                    season_name: season.season_name,
-                    episode_count: season.episode_count || 0
+                    series_id: season.season_number !== undefined ? String(season.season_number) : String(season.id),
+                    season_name: season.title || `Saison ${season.season_number}`,
+                    episode_count: season.episode_count || 0,
+                    thumbnail: season.thumbnail || null,
+                    description: season.description || ''
                 }));
 
                 // Ensure Kalandar is always available in the UI even if the API seasons list doesn't include it
