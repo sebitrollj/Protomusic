@@ -1,10 +1,9 @@
 /**
  * ProtoMusic API Service - PWA Version
- * Using Render proxy to avoid CORS
+ * Direct connection to v2.protogen.fr (no proxy)
  */
 
-const API_BASE = 'https://protomusic-proxy.onrender.com';
-const API_XHR = '/api';
+const API_BASE = 'https://v2.protogen.fr/api/'
 
 class ProtoMusicAPI {
     constructor() {
@@ -13,8 +12,7 @@ class ProtoMusicAPI {
 
     async request(endpoint, options = {}) {
         try {
-            const url = endpoint.startsWith('http') ? endpoint : `${API_XHR}${endpoint}`;
-            const fullUrl = `${this.baseUrl}${url}`;
+            const fullUrl = `${this.baseUrl}${endpoint}`;
 
             console.log('[API] Request:', fullUrl);
 
@@ -38,11 +36,11 @@ class ProtoMusicAPI {
     }
 
     async getPublicMedia(limit = 20, offset = 0) {
-        return this.request(`/media/getPublicMedia.php?limit=${limit}&offset=${offset}`);
+        return this.request(`/media/getPublicMedia?limit=${limit}&offset=${offset}`);
     }
 
     async getMostViewedMedia(limit = 8, offset = 0) {
-        return this.request(`/media/getMostViewedMedia.php?limit=${limit}&offset=${offset}`);
+        return this.request(`/media/getMostViewedMedia?limit=${limit}&offset=${offset}`);
     }
 
     async getRandomMedia(limit = 20, exclude = []) {
@@ -65,7 +63,7 @@ class ProtoMusicAPI {
 
     async search(query) {
         try {
-            const result = await this.request(`/search/autocomplete.php?q=${encodeURIComponent(query)}`);
+            const result = await this.request(`/search/autocomplete?q=${encodeURIComponent(query)}`);
             if (result.success && result.videos) return result;
         } catch (error) {
             console.warn('Search API failed');
@@ -75,8 +73,7 @@ class ProtoMusicAPI {
 
     async getSeries() {
         try {
-            const response = await fetch(`${this.baseUrl}/kikiskothek-api/`); // Updated endpoint
-            const data = await response.json();
+            const data = await this.request(`/kikiskothek/getSeasons`);
 
             if (data && data.success && data.seasons && data.seasons.length > 0) {
                 const seriesList = data.seasons.map(season => ({
@@ -124,8 +121,7 @@ class ProtoMusicAPI {
 
     async getEpisodes(seasonId) {
         try {
-            const response = await fetch(`${this.baseUrl}/kikiskothek-api/?season=${seasonId}`); // Updated endpoint
-            const data = await response.json();
+            const data = await this.request(`/kikiskothek/getEpisodes?season_number=${seasonId}`);
 
             if (data && data.success && data.episodes && data.episodes.length > 0) {
                 return {
@@ -133,10 +129,11 @@ class ProtoMusicAPI {
                     episodes: data.episodes.map((ep, i) => ({
                         video_id: ep.video_id,
                         episode_number: ep.episode_number || (i + 1),
-                        title: ep.title,
-                        thumbnail: ep.thumbnail || this.getThumbnailUrl(ep.video_id),
-                        owner_name: `Saison ${seasonId}`,
-                        duration: ep.duration || '0:00'
+                        title: ep.display_title || ep.episode_title || ep.video_title,
+                        thumbnail: ep.custom_thumbnail || this.getThumbnailUrl(ep.video_id),
+                        owner_name: ep.owner_display_name || ep.owner_username || `Saison ${seasonId}`,
+                        duration: ep.duration_formatted || '0:00',
+                        views: ep.views || 0
                     }))
                 };
             }
@@ -149,7 +146,7 @@ class ProtoMusicAPI {
     }
 
     async trackView(videoId) {
-        return this.request('/media/trackView.php');
+        return this.request(`/media/trackView?video_id=${videoId}`);
     }
 
     getThumbnailUrl(videoId) {
