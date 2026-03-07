@@ -3,20 +3,18 @@
  * Direct connection to v2.protogen.fr (no proxy)
  */
 
-const SITE_BASE = 'https://v2.protogen.fr'
-const API_BASE = 'https://v2.protogen.fr/api/'
-const ENCODER_API_BASE = 'https://v2.protogen.fr/webapi'
+const API_BASE = 'https://v2.protogen.fr';
+const API_XHR = '/sys/XHR';
 
 class ProtoMusicAPI {
     constructor() {
         this.baseUrl = API_BASE;
-        this.siteUrl = SITE_BASE;
-        this.encoderUrl = ENCODER_API_BASE;
     }
 
     async request(endpoint, options = {}) {
         try {
-            const fullUrl = `${this.baseUrl}${endpoint}`;
+            const url = endpoint.startsWith('http') ? endpoint : `${API_XHR}${endpoint}`;
+            const fullUrl = `${this.baseUrl}${url}`;
 
             console.log('[API] Request:', fullUrl);
 
@@ -77,15 +75,14 @@ class ProtoMusicAPI {
 
     async getSeries() {
         try {
-            const data = await this.request(`/kikiskothek/getSeasons`);
+            const response = await fetch(`${this.baseUrl}/kikiskothek-api/`); // Updated endpoint
+            const data = await response.json();
 
             if (data && data.success && data.seasons && data.seasons.length > 0) {
                 const seriesList = data.seasons.map(season => ({
-                    series_id: season.season_number !== undefined ? String(season.season_number) : String(season.id),
-                    season_name: season.title || `Saison ${season.season_number}`,
-                    episode_count: season.episode_count || 0,
-                    thumbnail: season.thumbnail || null,
-                    description: season.description || ''
+                    series_id: season.series_id,
+                    season_name: season.season_name,
+                    episode_count: season.episode_count || 0
                 }));
 
                 // Ensure Kalandar is always available in the UI even if the API seasons list doesn't include it
@@ -127,7 +124,8 @@ class ProtoMusicAPI {
 
     async getEpisodes(seasonId) {
         try {
-            const data = await this.request(`/kikiskothek/getEpisodes?season_number=${seasonId}`);
+            const response = await fetch(`${this.baseUrl}/kikiskothek-api/?season=${seasonId}`); // Updated endpoint
+            const data = await response.json();
 
             if (data && data.success && data.episodes && data.episodes.length > 0) {
                 return {
@@ -135,11 +133,10 @@ class ProtoMusicAPI {
                     episodes: data.episodes.map((ep, i) => ({
                         video_id: ep.video_id,
                         episode_number: ep.episode_number || (i + 1),
-                        title: ep.display_title || ep.episode_title || ep.video_title,
-                        thumbnail: ep.custom_thumbnail || this.getThumbnailUrl(ep.video_id),
-                        owner_name: ep.owner_display_name || ep.owner_username || `Saison ${seasonId}`,
-                        duration: ep.duration_formatted || '0:00',
-                        views: ep.views || 0
+                        title: ep.title,
+                        thumbnail: ep.thumbnail || this.getThumbnailUrl(ep.video_id),
+                        owner_name: `Saison ${seasonId}`,
+                        duration: ep.duration || '0:00'
                     }))
                 };
             }
@@ -155,35 +152,16 @@ class ProtoMusicAPI {
         return this.request(`/media/trackView?video_id=${videoId}`);
     }
 
-    resolveThumbnail(video) {
-        let thumbnailUrl;
-        if (video && video.thumbnail && video.thumbnail.trim() !== '') {
-            if (video.thumbnail.startsWith('http')) {
-                thumbnailUrl = video.thumbnail;
-            } else {
-                // Prepend encoder URL for relative paths via public API access
-                let path = video.thumbnail.startsWith('/') ? video.thumbnail : '/' + video.thumbnail;
-                thumbnailUrl = `${this.siteUrl}${path}`;
-            }
-        } else if (video && video.video_id) {
-            // Fallback to proxy generated thumbnail
-            thumbnailUrl = this.getThumbnailUrl(video.video_id);
-        } else {
-            thumbnailUrl = ''; // Default empty fallback
-        }
-        return thumbnailUrl;
-    }
-
     getThumbnailUrl(videoId) {
-        return `${this.encoderUrl}/media/thumb/${videoId}`;
+        return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
     }
 
     getStreamUrl(videoId) {
-        return `${this.encoderUrl}/media/stream/${videoId}/master.m3u8`;
+        return `${this.baseUrl}/webapi/media/stream/${videoId}/master.m3u8`;
     }
 
     getDirectUrl(videoId) {
-        return `${this.encoderUrl}/media/video/${videoId}`;
+        return `${this.baseUrl}/webapi/media/video/${videoId}`;
     }
 }
 
