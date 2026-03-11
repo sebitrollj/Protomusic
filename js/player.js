@@ -412,7 +412,8 @@ class ProtoMusicPlayer {
 
     // Resolve thumbnail URL: custom → proxy fallback
     _resolveThumbnailUrl(video) {
-        const baseUrl = (window.api && window.api.baseUrl) || 'https://protomusic-proxy.onrender.com';
+        // Use root domain (no /api) for relative paths like /uploads/...
+        const mediaBase = 'https://v2.protogen.fr';
         const proxyUrl = api.getThumbnailUrl(video.video_id);
 
         if (video.thumbnail && video.thumbnail.trim() !== '') {
@@ -420,7 +421,7 @@ class ProtoMusicPlayer {
                 return video.thumbnail;
             } else {
                 const path = video.thumbnail.startsWith('/') ? video.thumbnail : '/' + video.thumbnail;
-                return `${baseUrl}${path}`;
+                return `${mediaBase}${path}`;
             }
         }
         return proxyUrl;

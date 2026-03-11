@@ -3,7 +3,8 @@
  * Direct connection to v2.protogen.fr (no proxy)
  */
 
-const API_BASE = 'https://v2.protogen.fr';
+const API_BASE = 'https://v2.protogen.fr/api';
+const MEDIA_BASE = 'https://v2.protogen.fr';
 const API_XHR = '';
 
 class ProtoMusicAPI {
@@ -13,7 +14,7 @@ class ProtoMusicAPI {
 
     async request(endpoint, options = {}) {
         try {
-            const url = endpoint.startsWith('http') ? endpoint : `/api${endpoint}`;
+            const url = endpoint.startsWith('http') ? endpoint : `${endpoint}`;
             const fullUrl = `${this.baseUrl}${url}`;
 
             console.log('[API] Request:', fullUrl);
@@ -148,15 +149,15 @@ class ProtoMusicAPI {
     }
 
     getThumbnailUrl(videoId) {
-        return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
+        return `${MEDIA_BASE}/webapi/media/thumb/${videoId}`;
     }
 
     getStreamUrl(videoId) {
-        return `${this.baseUrl}/webapi/media/stream/${videoId}/master.m3u8`;
+        return `${MEDIA_BASE}/webapi/media/stream/${videoId}/master.m3u8`;
     }
 
     getDirectUrl(videoId) {
-        return `${this.baseUrl}/webapi/media/video/${videoId}`;
+        return `${MEDIA_BASE}/webapi/media/video/${videoId}`;
     }
 }
 
