@@ -3,8 +3,9 @@
  * Direct connection to v2.protogen.fr (no proxy)
  */
 
-const API_BASE = 'https://v2.protogen.fr';
-const API_XHR = '/sys/XHR';
+const API_BASE = 'https://v2.protogen.fr/api';
+const MEDIA_BASE = 'https://v2.protogen.fr';
+const API_XHR = '';
 
 class ProtoMusicAPI {
     constructor() {
@@ -13,7 +14,7 @@ class ProtoMusicAPI {
 
     async request(endpoint, options = {}) {
         try {
-            const url = endpoint.startsWith('http') ? endpoint : `${API_XHR}${endpoint}`;
+            const url = endpoint.startsWith('http') ? endpoint : `${endpoint}`;
             const fullUrl = `${this.baseUrl}${url}`;
 
             console.log('[API] Request:', fullUrl);
@@ -75,20 +76,16 @@ class ProtoMusicAPI {
 
     async getSeries() {
         try {
-            const response = await fetch(`${this.baseUrl}/kikiskothek-api/`); // Updated endpoint
-            const data = await response.json();
+            // Nouveau endpoint OpenAPI v2 : GET /api/kikiskothek/getSeasons
+            const data = await this.request('/kikiskothek/getSeasons');
 
             if (data && data.success && data.seasons && data.seasons.length > 0) {
                 const seriesList = data.seasons.map(season => ({
-                    series_id: season.series_id,
-                    season_name: season.season_name,
+                    series_id: String(season.id),
+                    season_name: season.title || `Saison ${season.season_number}`,
+                    season_number: season.season_number,
                     episode_count: season.episode_count || 0
                 }));
-
-                // Ensure Kalandar is always available in the UI even if the API seasons list doesn't include it
-                if (!seriesList.some(s => s.series_id === 'kalandar')) {
-                    seriesList.push({ series_id: 'kalandar', season_name: 'Kalandar', episode_count: 25 });
-                }
 
                 return {
                     success: true,
@@ -116,16 +113,15 @@ class ProtoMusicAPI {
             { series_id: '3', season_name: 'Saison 3', episode_count: 14 },
             { series_id: '2', season_name: 'Saison 2', episode_count: 15 },
             { series_id: '1', season_name: 'Saison 1', episode_count: 13 },
-            { series_id: 'kalandar', season_name: 'Kalandar', episode_count: 25 },
-            { series_id: 'autre', season_name: 'Autre', episode_count: 34 }
+            { series_id: '0', season_name: 'Autre', episode_count: 34 }
         ];
         return { success: true, series: seasons };
     }
 
     async getEpisodes(seasonId) {
         try {
-            const response = await fetch(`${this.baseUrl}/kikiskothek-api/?season=${seasonId}`); // Updated endpoint
-            const data = await response.json();
+            // Nouveau endpoint OpenAPI v2 : GET /api/kikiskothek/getEpisodes?season_id=X
+            const data = await this.request(`/kikiskothek/getEpisodes?season_id=${seasonId}`);
 
             if (data && data.success && data.episodes && data.episodes.length > 0) {
                 return {
@@ -133,10 +129,10 @@ class ProtoMusicAPI {
                     episodes: data.episodes.map((ep, i) => ({
                         video_id: ep.video_id,
                         episode_number: ep.episode_number || (i + 1),
-                        title: ep.title,
-                        thumbnail: ep.thumbnail || this.getThumbnailUrl(ep.video_id),
-                        owner_name: `Saison ${seasonId}`,
-                        duration: ep.duration || '0:00'
+                        title: ep.display_title || ep.episode_title || ep.video_title,
+                        thumbnail: ep.custom_thumbnail || this.getThumbnailUrl(ep.video_id),
+                        owner_name: data.season ? (data.season.title || `Saison ${seasonId}`) : `Saison ${seasonId}`,
+                        duration: ep.duration_formatted || '0:00'
                     }))
                 };
             }
@@ -153,15 +149,15 @@ class ProtoMusicAPI {
     }
 
     getThumbnailUrl(videoId) {
-        return `${this.baseUrl}/webapi/media/thumb/${videoId}`;
+        return `${MEDIA_BASE}/webapi/media/thumb/${videoId}`;
     }
 
     getStreamUrl(videoId) {
-        return `${this.baseUrl}/webapi/media/stream/${videoId}/master.m3u8`;
+        return `${MEDIA_BASE}/webapi/media/stream/${videoId}/master.m3u8`;
     }
 
     getDirectUrl(videoId) {
-        return `${this.baseUrl}/webapi/media/video/${videoId}`;
+        return `${MEDIA_BASE}/webapi/media/video/${videoId}`;
     }
 }
 
