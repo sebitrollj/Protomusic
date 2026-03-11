@@ -450,9 +450,8 @@ class ProtoMusicApp {
             if (video.thumbnail.startsWith('http')) {
                 customThumbUrl = video.thumbnail;
             } else {
-                const baseUrl = (window.api && window.api.baseUrl) || 'https://protomusic-proxy.onrender.com';
                 const path = video.thumbnail.startsWith('/') ? video.thumbnail : '/' + video.thumbnail;
-                customThumbUrl = `${baseUrl}${path}`;
+                customThumbUrl = `https://v2.protogen.fr${path}`;
             }
         }
         const displayThumb = customThumbUrl || thumbnailUrl;
@@ -945,10 +944,9 @@ class ProtoMusicApp {
             if (video.thumbnail.startsWith('http')) {
                 thumbnailUrl = video.thumbnail;
             } else {
-                // Prepend base URL for relative paths via public API access
-                const baseUrl = (window.api && window.api.baseUrl) || 'https://protomusic-proxy.onrender.com';
+                // Prepend root domain (no /api) for relative paths like /uploads/...
                 const path = video.thumbnail.startsWith('/') ? video.thumbnail : '/' + video.thumbnail;
-                thumbnailUrl = `${baseUrl}${path}`;
+                thumbnailUrl = `https://v2.protogen.fr${path}`;
             }
         } else {
             // Fallback to proxy generated thumbnail
